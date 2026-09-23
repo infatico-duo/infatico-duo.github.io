@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-label="Platzhalter Porträt Vadim Bektemirov">
+  <rect width="600" height="600" fill="#e6ded0"/>
+  <g fill="none" stroke="#b8860b" stroke-width="3" stroke-opacity="0.6">
+    <circle cx="300" cy="240" r="90"/>
+    <path d="M150 560 C 150 400, 450 400, 450 560"/>
+  </g>
+  <text x="300" y="310" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2418" fill-opacity="0.65">PORTRÄT</text>
+  <text x="300" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#2c2418" fill-opacity="0.45">600x600</text>
+  <rect x="14" y="14" width="572" height="572" fill="none" stroke="#b8860b" stroke-opacity="0.5" stroke-width="3" stroke-dasharray="14 10"/>
+</svg>
