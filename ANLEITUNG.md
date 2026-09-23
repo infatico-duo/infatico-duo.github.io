@@ -30,19 +30,21 @@ Alles ist statisch: kein Server, kein Build, keine Datenbank nötig.
 | Was | Datei + Zeile | Suchbegriff | Wie ersetzen |
 |---|---|---|---|
 | Hero-Foto (großes Hintergrundbild) | `index.html` Zeile **60** | `images/hero.svg` | Datei in `images/` legen, `src` ändern |
-| Foto des Duos | `index.html` Zeile **103** | `images/duo.svg` | dito |
-| Porträt Nataliya Salavei | `index.html` Zeile **111** | `images/portrait-1.svg` | dito |
-| Porträt Vadim Bektemirov | `index.html` Zeile **122** | `images/portrait-2.svg` | dito |
-| Biografie-Texte | `index.html` Zeilen **115**, **126** | `Biografie wird später ergänzt.` | 3 Fassungen pro Text: `data-de`, `data-en`, `data-ru` |
-| Konzerttermine | `index.html` Zeilen **251**, **257**, **263** | `TT.MM.JJJJ` | Datum/Ort/Stadt in allen drei Sprachen |
-| Audio 1–3 | `index.html` Zeilen **157**, **169**, **181** | `AUDIO-PLATZHALTER` | `<source>` einfügen (Abschnitt 3) |
-| Titelnamen der Tracks | `index.html` Zeilen **153**, **165**, **177** | `Titel 1 – Platzhalter` | in DE/EN/RU |
-| YouTube-Video 1 | `index.html` Zeile **204** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
-| YouTube-Video 2 | `index.html` Zeile **217** | `video-frame` (2. Treffer) | dito |
-| E-Mail-Adresse | `index.html` Zeile **290** | `booking@example.com` | `mailto:`-Link + Text |
-| Telefonnummer | `index.html` Zeile **294** | `tel:+490000000000` | `tel:`-Link + Text |
-| Kontaktformular | `index.html` Zeile **309** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
-| Impressum-Link im Footer | `index.html` Zeile **357** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
+| Foto des Duos | `index.html` Zeile **104** | `images/duo.svg` | dito |
+| Porträt Nataliya Salavei | `index.html` Zeile **112** | `images/portrait-1.svg` | dito |
+| Porträt Vadim Bektemirov | `index.html` Zeile **123** | `images/portrait-2.svg` | dito |
+| Einleitung „Über uns" (2 Absätze) | `index.html` Zeilen **95**, **98** | `about-intro` | Text in allen drei Sprachen (`data-de`/`data-en`/`data-ru`) |
+| Funktionsbezeichnung unter dem Namen | `index.html` Zeilen **114**, **125** | `bio-role` | z. B. „Violine · Bielefelder Philharmoniker" — DE/EN/RU |
+| Biografien (je 3 Absätze) | `index.html` Zeilen **116–118**, **127–129** | `class="bio-text"` | Absätze einzeln, jeder mit `data-de`/`data-en`/`data-ru` |
+| Konzerttermine | `index.html` Zeilen **252**, **258**, **264** | `TT.MM.JJJJ` | Datum/Ort/Stadt in allen drei Sprachen |
+| Audio 1–3 | `index.html` Zeilen **158**, **170**, **182** | `AUDIO-PLATZHALTER` | `<source>` einfügen (Abschnitt 3) |
+| Titelnamen der Tracks | `index.html` Zeilen **154**, **166**, **178** | `Titel 1 – Platzhalter` | in DE/EN/RU |
+| YouTube-Video 1 | `index.html` Zeile **205** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
+| YouTube-Video 2 | `index.html` Zeile **218** | `video-frame` (2. Treffer) | dito |
+| E-Mail-Adresse | `index.html` Zeile **291** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
+| Telefonnummer | `index.html` Zeile **295** | `tel:+490000000000` | `tel:`-Link + Text |
+| Kontaktformular | `index.html` Zeile **310** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
+| Impressum-Link im Footer | `index.html` Zeile **358** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
 
 **Grundregel für alle Texte:** Jedes Element hat drei Attribute —
 `data-de` (Deutsch), `data-en` (Englisch), `data-ru` (Russisch).
@@ -64,15 +66,15 @@ Wird ein Attribut geändert, ändert sich die Anzeige nach dem Sprachwechsel aut
 <!-- Hero (Zeile 60). alt="" ist richtig, weil das Bild rein dekorativ ist. -->
 <img src="images/hero.jpg" alt="" width="1920" height="1080">
 
-<!-- Foto des Duos (Zeile 103) -->
+<!-- Foto des Duos (Zeile 104) -->
 <img src="images/duo.jpg" alt="Duo Infatico – Nataliya Salavei und Vadim Bektemirov"
      width="1200" height="800" loading="lazy">
 
-<!-- Porträt 1 (Zeile 111) -->
+<!-- Porträt 1 (Zeile 112) -->
 <img class="bio-photo" src="images/nataliya.jpg"
      alt="Nataliya Salavei, Violine" width="600" height="600" loading="lazy">
 
-<!-- Porträt 2 (Zeile 122) -->
+<!-- Porträt 2 (Zeile 123) -->
 <img class="bio-photo" src="images/vadim.jpg"
      alt="Vadim Bektemirov, Gitarre" width="600" height="600" loading="lazy">
 ```
@@ -122,7 +124,7 @@ bei YouTube/SoundCloud hosten und verlinken.
 
 ## 4. YouTube-Videos einbetten
 
-In `index.html` (Zeilen **204** und **217**) steht jeweils ein Platzhalter-Block.
+In `index.html` (Zeilen **205** und **218**) steht jeweils ein Platzhalter-Block.
 Diesen komplett ersetzen — die Videokennung aus der YouTube-URL übernehmen
 (`youtube.com/watch?v=**VIDEO_ID**`):
 
@@ -157,10 +159,10 @@ das ist datenschutzfreundlicher und in Deutschland empfehlenswert.
 
 ## 5. E-Mail und Telefon
 
-Zeilen **290** und **294** in `index.html`:
+Zeilen **291** und **295** in `index.html`:
 
 ```html
-<dd><a href="mailto:info@duo-infatico.de">info@duo-infatico.de</a></dd>
+<dd><a href="mailto:infatico.duo@gmail.com">infatico.duo@gmail.com</a></dd>
 <dd><a href="tel:+4952112345678">+49 (0) 521 123 456 78</a></dd>
 ```
 
@@ -182,11 +184,11 @@ zeigt nur eine Meldung. Es werden keine Daten versendet.
 
 ### Variante A — FormSubmit (kein Konto, am schnellsten)
 
-Zeile **309** in `index.html`:
+Zeile **310** in `index.html`:
 
 ```html
 <form class="contact-form" id="contact-form"
-      action="https://formsubmit.co/info@duo-infatico.de" method="POST">
+      action="https://formsubmit.co/infatico.duo@gmail.com" method="POST">
   <input type="hidden" name="_subject" value="Neue Booking-Anfrage – Duo Infatico">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_captcha" value="false">
@@ -254,7 +256,7 @@ Mai 2024 **§ 5 DDG** (Digitale-Dienste-Gesetz, hat das frühere § 5 TMG abgel�
 ### Empfohlener Aufbau
 
 Am einfachsten eine zweite Seite `impressum.html` anlegen (Kopf und Footer
-aus `index.html` übernehmen) und den Footer-Link darauf setzen — Zeile **357**:
+aus `index.html` übernehmen) und den Footer-Link darauf setzen — Zeile **358**:
 
 ```html
 <p class="footer-links">

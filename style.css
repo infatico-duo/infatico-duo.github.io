@@ -458,6 +458,15 @@ button, input, textarea {
   margin-bottom: 3rem;
 }
 
+/* zweiter Absatz der Einleitung: etwas kleiner und ruhiger als .lead */
+.about-intro-sub {
+  margin-top: 1.15rem;
+  max-width: 40rem;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
 .duo-figure {
   margin: 0 0 3.5rem;
 }
@@ -499,16 +508,23 @@ button, input, textarea {
   font-size: 1.5rem;
   margin-bottom: .2rem;
 }
+/* Untertitel unter dem Namen: kleiner, Akzentfarbe, kein Kursiv */
 .bio-role {
-  margin: 0 0 1rem;
-  font-size: .74rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
+  margin: 0 0 1.15rem;
+  font-size: .84rem;
+  letter-spacing: .02em;
+  font-style: normal;
   color: var(--accent);
 }
 .bio-text {
   font-size: .95rem;
   line-height: 1.75;
+}
+.bio-text p {
+  margin: 0 0 .95rem;
+}
+.bio-text p:last-child {
+  margin-bottom: 0;
 }
 
 /* ==========================================================================
