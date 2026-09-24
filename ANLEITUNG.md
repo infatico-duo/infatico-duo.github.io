@@ -43,8 +43,8 @@ Alles ist statisch: kein Server, kein Build, keine Datenbank nötig.
 | YouTube-Video 2 | `index.html` Zeile **218** | `video-frame` (2. Treffer) | dito |
 | E-Mail-Adresse | `index.html` Zeile **291** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
 | Telefonnummer | `index.html` Zeile **295** | `tel:` (Booking-Nummer) | `tel:`-Link + Text; die Nummer steht zentral in `tools/config.js` (`BOOKING_PHONE`) und im öffentlichen vCard |
-| Kontaktformular | `index.html` Zeile **310** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
-| Impressum-Link im Footer | `index.html` Zeile **358** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
+| Kontaktformular | `index.html` Zeile **304** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
+| Impressum-Link im Footer | `index.html` Zeile **352** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
 
 **Grundregel für alle Texte:** Jedes Element hat drei Attribute —
 `data-de` (Deutsch), `data-en` (Englisch), `data-ru` (Russisch).
@@ -198,7 +198,7 @@ zeigt nur eine Meldung. Es werden keine Daten versendet.
 
 ### Variante A — FormSubmit (kein Konto, am schnellsten)
 
-Zeile **310** in `index.html`:
+Zeile **304** in `index.html`:
 
 ```html
 <form class="contact-form" id="contact-form"
@@ -270,7 +270,7 @@ Mai 2024 **§ 5 DDG** (Digitale-Dienste-Gesetz, hat das frühere § 5 TMG abgel�
 ### Empfohlener Aufbau
 
 Am einfachsten eine zweite Seite `impressum.html` anlegen (Kopf und Footer
-aus `index.html` übernehmen) und den Footer-Link darauf setzen — Zeile **358**:
+aus `index.html` übernehmen) und den Footer-Link darauf setzen — Zeile **352**:
 
 ```html
 <p class="footer-links">
