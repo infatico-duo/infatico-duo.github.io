@@ -272,6 +272,14 @@ check('duo-infatico.vcf: öffentliche E-Mail', vcf.indexOf(config.EMAIL) !== -1,
 check('duo-infatico.vcf: Website', vcf.indexOf(config.SITE_URL) !== -1, config.SITE_URL);
 check('duo-infatico.vcf: keine Anschrift', !/^ADR/mi.test(vcf));
 
+/* Ohne diesen Eintrag normalisiert Git (core.autocrlf=true) die CRLF-Zeilenenden
+   zu LF – die ausgelieferte vCard wäre dann nicht mehr RFC-2426-konform. */
+const gitattributesPath = path.join(ROOT, '.gitattributes');
+const gitattributes = fs.existsSync(gitattributesPath) ? readText(gitattributesPath) : '';
+check('duo-infatico.vcf: .gitattributes schützt die CRLF-Zeilenenden (*.vcf -text)',
+  /^\*\.vcf[ \t]+-text[ \t]*$/m.test(gitattributes),
+  gitattributes ? 'Eintrag gefunden' : '.gitattributes fehlt');
+
 /* Telefonnummer im öffentlichen Kontakt */
 check('duo-infatico.vcf: Booking-Nummer als TEL;TYPE=CELL',
   vcf.indexOf('TEL;TYPE=CELL:' + BOOKING_PHONE) !== -1, BOOKING_PHONE);

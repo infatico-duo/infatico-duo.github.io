@@ -1,0 +1,12 @@
+# Zeilenenden-Regeln für dieses Repository
+#
+# vCard 3.0 (RFC 2426) schreibt CRLF-Zeilenenden vor. Git würde sie wegen
+# core.autocrlf=true beim Commit zu LF normalisieren – die ausgelieferte
+# Datei unter /card/duo-infatico.vcf hätte dann nur LF. Deshalb ist die
+# vCard hier bewusst als "binär" markiert: Git wandelt nichts um und die
+# Datei wird byteweise genau so ausgeliefert, wie sie erzeugt wurde.
+*.vcf -text
+
+# Bilder sind ohnehin binär.
+*.png -text
+*.jpg -text
