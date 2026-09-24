@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Duo Infatico – Visitenkarte</title>
+<meta name="description" content="Digitale Visitenkarte des Duo Infatico: Nataliya Salavei (Violine) und Vadim Bektemirov (Gitarre) aus Bielefeld.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Duo Infatico">
+<link rel="stylesheet" href="card.css">
+</head>
+<body>
+
+<a class="skip-link" href="#card" data-de="Zum Inhalt springen" data-en="Skip to content" data-ru="Перейти к содержанию">Zum Inhalt springen</a>
+
+<div class="topbar">
+  <span class="topbar-brand">
+    <span class="monogram monogram-sm" aria-hidden="true">DI</span>
+    <span class="topbar-text">Duo Infatico</span>
+  </span>
+
+  <div class="lang-switch" role="group" aria-label="Sprache / Language / Язык">
+    <button type="button" class="lang-btn is-active" data-lang="de" lang="de" aria-pressed="true">DE</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="ru" lang="ru" aria-pressed="false">RU</button>
+  </div>
+</div>
+
+<main class="card" id="card">
+
+  <header class="card-head">
+    <span class="monogram" aria-hidden="true">DI</span>
+    <h1 class="card-title">Duo Infatico</h1>
+    <p class="card-tagline">
+      <span data-de="Violine &amp; Gitarre" data-en="Violin &amp; Guitar" data-ru="Скрипка и гитара">Violine &amp; Gitarre</span>
+    </p>
+    <p class="card-names">Nataliya Salavei · Vadim Bektemirov</p>
+    <p class="card-kicker" data-de="Digitale Visitenkarte" data-en="Digital business card" data-ru="Цифровая визитка">Digitale Visitenkarte</p>
+  </header>
+
+  <!-- Motiv aus images/hero.svg: zwei Bögen (Geige & Gitarre) in zwei Kreisen -->
+  <div class="motif" aria-hidden="true">
+    <svg viewBox="0 0 512 512" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-linecap="round">
+        <circle cx="256" cy="256" r="150" stroke-width="10"/>
+        <circle cx="256" cy="256" r="198" stroke-width="7" stroke-opacity=".65"/>
+        <path d="M82 440 C 174 307, 205 225, 230 72" stroke-width="10"/>
+        <path d="M430 440 C 338 307, 307 225, 282 72" stroke-width="10"/>
+      </g>
+      <circle class="motif-dot" cx="256" cy="102" r="15"/>
+    </svg>
+  </div>
+
+  <section class="qr-block" aria-labelledby="qr-heading">
+    <h2 class="visually-hidden" id="qr-heading" data-de="QR-Code" data-en="QR code" data-ru="QR-код">QR-Code</h2>
+    <a class="qr-frame" id="qr-open" href="qr.svg" aria-label="QR-Code vergrößern">
+      <img class="qr" src="qr.svg" alt="QR-Code: https://infatico-duo.de/card/" width="740" height="740">
+    </a>
+    <p class="qr-caption">infatico-duo.de/card/</p>
+    <p class="qr-hint" data-de="Zum Teilen scannen" data-en="Scan to share" data-ru="Отсканируйте, чтобы поделиться">Zum Teilen scannen</p>
+  </section>
+
+  <nav class="actions" aria-label="Aktionen">
+    <a class="btn btn-primary" href="../">
+      <span data-de="Website" data-en="Website" data-ru="Сайт">Website</span>
+    </a>
+    <a class="btn" href="duo-infatico.vcf" download="duo-infatico.vcf" type="text/vcard">
+      <span data-de="Kontakt speichern" data-en="Save contact" data-ru="Сохранить контакт">Kontakt speichern</span>
+    </a>
+    <a class="btn" href="../#musik">
+      <span data-de="Musik hören" data-en="Listen to music" data-ru="Слушать музыку">Musik hören</span>
+    </a>
+    <button class="btn" type="button" id="share">
+      <span data-de="Teilen" data-en="Share" data-ru="Поделиться">Teilen</span>
+    </button>
+  </nav>
+
+  <div class="actions-secondary">
+    <button class="btn btn-ghost" type="button" id="qr-fullscreen">
+      <span data-de="QR-Vollbild" data-en="Full-screen QR" data-ru="QR на весь экран">QR-Vollbild</span>
+    </button>
+    <button class="btn btn-ghost is-hidden" type="button" id="install">
+      <span data-de="App installieren" data-en="Install app" data-ru="Установить приложение">App installieren</span>
+    </button>
+  </div>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <!-- Persönliche Kontakt-QR: nur auf den Telefonen der beiden eingerichtet -->
+  <section class="contact-qr" aria-labelledby="contact-qr-heading">
+    <h2 class="block-title" id="contact-qr-heading"
+        data-de="Persönlicher Kontakt-QR" data-en="Personal contact QR" data-ru="Личный QR контакта">Persönlicher Kontakt-QR</h2>
+    <p class="block-sub"
+       data-de="Diese zwei Schaltflächen funktionieren nur auf den Telefonen von Vadim und Nataliya und erzeugen den QR-Code direkt auf dem Gerät."
+       data-en="These two buttons work only on Vadim's and Nataliya's phones and create the QR code directly on the device."
+       data-ru="Эти две кнопки работают только на телефонах Вадима и Наталии и создают QR-код прямо на устройстве.">Diese zwei Schaltflächen funktionieren nur auf den Telefonen von Vadim und Nataliya und erzeugen den QR-Code direkt auf dem Gerät.</p>
+    <div class="actions actions-2">
+      <button class="btn" type="button" id="qr-person-vadim">Vadim Bektemirov</button>
+      <button class="btn" type="button" id="qr-person-nataliya">Nataliya Salavei</button>
+    </div>
+  </section>
+
+  <!-- Hinweis für iPhone: Installation als Web-App -->
+  <section class="install-help" aria-labelledby="install-help-heading">
+    <h2 class="block-title" id="install-help-heading"
+        data-de="Auf dem iPhone installieren" data-en="Install on iPhone" data-ru="Установка на iPhone">Auf dem iPhone installieren</h2>
+    <ol class="steps">
+      <li data-de="Safari öffnen" data-en="Open Safari" data-ru="Откройте Safari">Safari öffnen</li>
+      <li data-de="Teilen antippen" data-en="Tap Share" data-ru="Нажмите «Поделиться»">Teilen antippen</li>
+      <li data-de="Zum Home-Bildschirm" data-en="Add to Home Screen" data-ru="На экран «Домой»">Zum Home-Bildschirm</li>
+      <li data-de="Als Web-App öffnen" data-en="Open as Web App" data-ru="Открыть как веб-приложение">Als Web-App öffnen</li>
+    </ol>
+  </section>
+
+  <footer class="card-foot">
+    <dl class="foot-list">
+      <div>
+        <dt data-de="Standort" data-en="Location" data-ru="Локация">Standort</dt>
+        <dd data-de="Bielefeld, Nordrhein-Westfalen" data-en="Bielefeld, North Rhine-Westphalia" data-ru="Билефельд, Северный Рейн-Вестфалия">Bielefeld, Nordrhein-Westfalen</dd>
+      </div>
+      <div>
+        <dt data-de="E-Mail" data-en="Email" data-ru="Email">E-Mail</dt>
+        <dd><a href="mailto:infatico.duo@gmail.com">infatico.duo@gmail.com</a></dd>
+      </div>
+    </dl>
+    <p class="foot-copy">© <span id="year">2026</span> Duo Infatico</p>
+  </footer>
+
+</main>
+
+<!-- Vollbild-QR: öffentlicher Code (statisch) oder persönlicher Code (im Browser erzeugt) -->
+<div class="qr-overlay" id="qr-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-overlay-title" hidden>
+  <h2 class="visually-hidden" id="qr-overlay-title" data-de="QR-Code zum Scannen" data-en="QR code to scan" data-ru="QR-код для сканирования">QR-Code zum Scannen</h2>
+  <div class="qr-overlay-inner">
+    <p class="qr-overlay-person" id="qr-overlay-person"></p>
+    <img class="qr-overlay-img" id="qr-overlay-img" src="qr.svg" alt="QR-Code: https://infatico-duo.de/card/">
+    <canvas class="qr-overlay-img" id="qr-overlay-canvas" width="360" height="360" hidden
+            role="img" data-de-aria="Persönlicher QR-Code" data-en-aria="Personal QR code" data-ru-aria="Личный QR-код"
+            aria-label="Persönlicher QR-Code"></canvas>
+    <p class="qr-overlay-url" id="qr-overlay-url">infatico-duo.de/card/</p>
+    <p class="qr-overlay-hint" data-de="Zum Schließen tippen" data-en="Tap to close" data-ru="Нажмите, чтобы закрыть">Zum Schließen tippen</p>
+  </div>
+  <button class="overlay-close" type="button" id="qr-close"
+          data-de-aria="Schließen" data-en-aria="Close" data-ru-aria="Закрыть" aria-label="Schließen">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<script src="i18n.js"></script>
+<script src="contact-data.js"></script>
+<script src="qr.js"></script>
+<script src="card.js"></script>
+</body>
+</html>

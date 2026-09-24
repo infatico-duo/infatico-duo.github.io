@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Duo Infatico – Einrichtung</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../card.css">
+</head>
+<body class="page page-form">
+
+<a class="skip-link" href="#setup" data-de="Zum Inhalt springen" data-en="Skip to content" data-ru="Перейти к содержанию">Zum Inhalt springen</a>
+
+<div class="topbar">
+  <span class="topbar-brand">
+    <span class="monogram monogram-sm" aria-hidden="true">DI</span>
+    <span class="topbar-text" data-de="Einrichtung" data-en="Setup" data-ru="Настройка">Einrichtung</span>
+  </span>
+
+  <div class="lang-switch" role="group" aria-label="Sprache / Language / Язык">
+    <button type="button" class="lang-btn is-active" data-lang="de" lang="de" aria-pressed="true">DE</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="ru" lang="ru" aria-pressed="false">RU</button>
+  </div>
+</div>
+
+<main class="page-inner" id="setup">
+
+  <h1 class="page-title" data-de="Persönliche Kontaktdaten" data-en="Personal contact details" data-ru="Личные контактные данные">Persönliche Kontaktdaten</h1>
+
+  <div class="notice notice-warn" role="note">
+    <p class="notice-title" data-de="Nur für Vadim und Nataliya" data-en="For Vadim and Nataliya only" data-ru="Только для Вадима и Наталии">Nur für Vadim und Nataliya</p>
+    <p data-de="Diese Seite ist nur für Vadim und Nataliya. Telefonnummern werden ausschließlich lokal in diesem Browser gespeichert." data-en="This page is for Vadim and Nataliya only. Phone numbers are stored exclusively in this browser." data-ru="Эта страница только для Вадима и Наталии. Номера телефонов сохраняются исключительно в этом браузере.">Diese Seite ist nur für Vadim und Nataliya. Telefonnummern werden ausschließlich lokal in diesem Browser gespeichert.</p>
+    <p data-de="Nach dem Wechsel auf infatico-duo.de muss die Konfiguration erneut eingegeben werden." data-en="After switching to infatico-duo.de the configuration must be entered again." data-ru="После перехода на infatico-duo.de конфигурацию нужно ввести заново.">Nach dem Wechsel auf infatico-duo.de muss die Konfiguration erneut eingegeben werden.</p>
+    <p data-de="Diese Seite ist nirgends verlinkt und wird nicht in Suchmaschinen aufgenommen." data-en="This page is not linked anywhere and is excluded from search engines." data-ru="Эта страница нигде не связана ссылками и исключена из поисковых систем.">Diese Seite ist nirgends verlinkt und wird nicht in Suchmaschinen aufgenommen.</p>
+  </div>
+
+  <form class="form" id="setup-form" novalidate>
+
+    <fieldset class="fieldset">
+      <legend data-de="Person" data-en="Person" data-ru="Человек">Person</legend>
+      <div class="radio-row">
+        <label class="radio">
+          <input type="radio" name="profile" value="vadim" checked>
+          <span class="radio-text">
+            <strong>Vadim Bektemirov</strong>
+            <em data-de="Gitarre" data-en="Guitar" data-ru="Гитара">Gitarre</em>
+          </span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="profile" value="nataliya">
+          <span class="radio-text">
+            <strong>Nataliya Salavei</strong>
+            <em data-de="Violine" data-en="Violin" data-ru="Скрипка">Violine</em>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label for="setup-name" data-de="Name" data-en="Name" data-ru="Имя">Name</label>
+      <input type="text" id="setup-name" name="name" maxlength="100" autocomplete="name"
+             data-de-placeholder="Vor- und Nachname" data-en-placeholder="First and last name" data-ru-placeholder="Имя и фамилия"
+             placeholder="Vor- und Nachname">
+    </div>
+
+    <div class="field">
+      <label for="setup-phone" data-de="Telefon" data-en="Phone" data-ru="Телефон">Telefon</label>
+      <input type="tel" id="setup-phone" name="phone" maxlength="20" inputmode="tel" autocomplete="tel"
+             data-de-placeholder="+49 …" data-en-placeholder="+49 …" data-ru-placeholder="+49 …"
+             placeholder="+49 …">
+      <p class="field-hint" data-de="Erlaubt sind +, Ziffern, Leerzeichen und Bindestriche (höchstens 20 Zeichen)." data-en="Allowed: +, digits, spaces and hyphens (20 characters maximum)." data-ru="Допустимы +, цифры, пробелы и дефисы (не более 20 символов).">Erlaubt sind +, Ziffern, Leerzeichen und Bindestriche (höchstens 20 Zeichen).</p>
+    </div>
+
+    <div class="field">
+      <label for="setup-email" data-de="E-Mail" data-en="Email" data-ru="Email">E-Mail</label>
+      <input type="email" id="setup-email" name="email" maxlength="100" autocomplete="email">
+      <p class="field-hint" data-de="Nur für die Anzeige auf diesem Gerät. Der QR-Code enthält keine E-Mail-Adresse." data-en="Only shown on this device. The QR code does not contain an email address." data-ru="Только для отображения на этом устройстве. QR-код не содержит email.">Nur für die Anzeige auf diesem Gerät. Der QR-Code enthält keine E-Mail-Adresse.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" id="setup-save"
+              data-de="Speichern in diesem Browser" data-en="Save in this browser" data-ru="Сохранить в этом браузере">Speichern in diesem Browser</button>
+      <button class="btn" type="button" id="setup-delete"
+              data-de="Aus diesem Browser löschen" data-en="Delete from this browser" data-ru="Удалить из этого браузера">Aus diesem Browser löschen</button>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </form>
+
+  <section class="preview" id="preview" hidden>
+    <h2 class="preview-title" data-de="Vorschau" data-en="Preview" data-ru="Предпросмотр">Vorschau</h2>
+    <p class="preview-person" id="preview-person"></p>
+    <div class="qr-frame qr-frame-preview">
+      <canvas id="preview-canvas" width="296" height="296" role="img"
+              data-de-aria="QR-Code Vorschau" data-en-aria="QR code preview" data-ru-aria="Предпросмотр QR-кода"
+              aria-label="QR-Code Vorschau"></canvas>
+    </div>
+    <p class="qr-caption" id="preview-url"></p>
+    <p class="preview-hint" data-de="Dieser QR-Code entsteht nur hier im Browser und wird nirgends gespeichert. Im Code stehen ausschließlich Profil und Telefonnummer – Name, Instrument, E-Mail und Ort kommen aus den öffentlichen Daten der Website." data-en="This QR code is created only in this browser and never stored. It contains just the profile and phone number – name, instrument, email and city come from the public website data." data-ru="Этот QR-код создаётся только в этом браузере и нигде не сохраняется. В нём только профиль и номер телефона — имя, инструмент, email и город берутся из публичных данных сайта.">Dieser QR-Code entsteht nur hier im Browser und wird nirgends gespeichert. Im Code stehen ausschließlich Profil und Telefonnummer – Name, Instrument, E-Mail und Ort kommen aus den öffentlichen Daten der Website.</p>
+  </section>
+
+  <p class="page-foot">
+    <a class="link-quiet" href="../" data-de="Zur Visitenkarte" data-en="To the business card" data-ru="К визитке">Zur Visitenkarte</a>
+  </p>
+
+</main>
+
+<script src="../i18n.js"></script>
+<script src="../contact-data.js"></script>
+<script src="../qr.js"></script>
+<script src="setup.js"></script>
+</body>
+</html>

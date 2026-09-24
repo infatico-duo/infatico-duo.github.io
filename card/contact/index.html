@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Duo Infatico – Kontakt speichern</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../card.css">
+</head>
+<body class="page page-form">
+
+<a class="skip-link" href="#contact" data-de="Zum Inhalt springen" data-en="Skip to content" data-ru="Перейти к содержанию">Zum Inhalt springen</a>
+
+<div class="topbar">
+  <span class="topbar-brand">
+    <span class="monogram monogram-sm" aria-hidden="true">DI</span>
+    <span class="topbar-text">Duo Infatico</span>
+  </span>
+
+  <div class="lang-switch" role="group" aria-label="Sprache / Language / Язык">
+    <button type="button" class="lang-btn is-active" data-lang="de" lang="de" aria-pressed="true">DE</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="ru" lang="ru" aria-pressed="false">RU</button>
+  </div>
+</div>
+
+<main class="page-inner" id="contact">
+
+  <!-- Fehlerfall: kein oder ungültiger Kontakt im Fragment -->
+  <section class="notice notice-error" id="error" hidden>
+    <p class="notice-title" data-de="Kein Kontakt in dieser URL" data-en="No contact in this URL" data-ru="В этой ссылке нет контакта">Kein Kontakt in dieser URL</p>
+    <p data-de="Bitte den QR-Code erneut scannen." data-en="Please scan the QR code again." data-ru="Пожалуйста, отсканируйте QR-код ещё раз.">Bitte den QR-Code erneut scannen.</p>
+    <p><a class="link-quiet" href="../" data-de="Zur Visitenkarte" data-en="To the business card" data-ru="К визитке">Zur Visitenkarte</a></p>
+  </section>
+
+  <!-- Kontaktansicht -->
+  <section id="contact-view" hidden>
+
+    <p class="contact-kicker" data-de="Kontakt" data-en="Contact" data-ru="Контакт">Kontakt</p>
+    <h1 class="page-title" id="contact-name"></h1>
+    <p class="contact-instrument" id="contact-instrument"></p>
+
+    <dl class="contact-list">
+      <div>
+        <dt data-de="Telefon" data-en="Phone" data-ru="Телефон">Telefon</dt>
+        <dd id="contact-phone"></dd>
+      </div>
+      <div>
+        <dt data-de="E-Mail" data-en="Email" data-ru="Email">E-Mail</dt>
+        <dd id="contact-email"></dd>
+      </div>
+      <div>
+        <dt data-de="Standort" data-en="Location" data-ru="Локация">Standort</dt>
+        <dd id="contact-city"></dd>
+      </div>
+    </dl>
+
+    <button class="btn btn-primary btn-big" type="button" id="save-vcf"
+            data-de="Kontakt speichern" data-en="Save contact" data-ru="Сохранить контакт">Kontakt speichern</button>
+
+    <div class="actions actions-2">
+      <a class="btn" id="call" href="#"
+         data-de="Anrufen" data-en="Call" data-ru="Позвонить">Anrufen</a>
+      <a class="btn" id="mail" href="#"
+         data-de="E-Mail schreiben" data-en="Send email" data-ru="Написать email">E-Mail schreiben</a>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <p class="notice-hint"
+       data-de="Auf dem iPhone lässt sich die Datei oft nicht direkt öffnen. Tippe danach auf die heruntergeladene Datei und wähle „In Kontakte öffnen“ – oder nutze die Schaltflächen Anrufen und E-Mail."
+       data-en="On iPhone the file often cannot be opened directly. Afterwards tap the downloaded file and choose “Open in Contacts” – or use the Call and Email buttons."
+       data-ru="На iPhone файл часто не открывается напрямую. После загрузки нажмите на файл и выберите «Открыть в Контактах» — либо используйте кнопки «Позвонить» и «Написать email».">Auf dem iPhone lässt sich die Datei oft nicht direkt öffnen. Tippe danach auf die heruntergeladene Datei und wähle „In Kontakte öffnen“ – oder nutze die Schaltflächen Anrufen und E-Mail.</p>
+
+    <p class="privacy-note"
+       data-de="Diese Seite sendet nichts an einen Server. Die Telefonnummer stand nur im Teil nach dem # der Adresse und wurde bereits aus der Adresszeile entfernt."
+       data-en="This page does not send anything to a server. The phone number was only in the part after the # of the address and has already been removed from the address bar."
+       data-ru="Эта страница ничего не отправляет на сервер. Номер телефона был только в части после # и уже удалён из адресной строки.">Diese Seite sendet nichts an einen Server. Die Telefonnummer stand nur im Teil nach dem # der Adresse und wurde bereits aus der Adresszeile entfernt.</p>
+
+  </section>
+
+</main>
+
+<script src="../i18n.js"></script>
+<script src="../contact-data.js"></script>
+<script src="contact.js"></script>
+</body>
+</html>

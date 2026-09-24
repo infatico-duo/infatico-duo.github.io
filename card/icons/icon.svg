@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Duo Infatico">
+  <rect width="512" height="512" fill="#2c2418"/>
+  <g fill="none" stroke="#b8860b" stroke-width="11" stroke-linecap="round">
+    <circle cx="256" cy="256" r="154"/>
+    <circle cx="256" cy="256" r="202" stroke-width="8" stroke-opacity="0.75"/>
+    <path d="M82 440 C 174 307, 205 225, 230 72"/>
+    <path d="M430 440 C 338 307, 307 225, 282 72"/>
+  </g>
+  <circle cx="256" cy="102" r="15" fill="#6e2231"/>
+</svg>

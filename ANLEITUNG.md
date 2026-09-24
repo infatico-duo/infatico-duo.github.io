@@ -163,8 +163,13 @@ Zeilen **291** und **295** in `index.html`:
 
 ```html
 <dd><a href="mailto:infatico.duo@gmail.com">infatico.duo@gmail.com</a></dd>
-<dd><a href="tel:+4952112345678">+49 (0) 521 123 456 78</a></dd>
+<dd><a href="tel:+491234567890">+49 123 456 7890</a></dd>
 ```
+
+> Die Nummer oben ist ein **ausdrücklich fiktiver Platzhalter** (`+491234567890`).
+> Echte persönliche Nummern gehören nicht ins Repository: Sie werden nur über
+> `/card/setup/` lokal im Browser der beiden hinterlegt und verlassen das
+> Gerät ausschließlich im URL-Fragment des persönlichen QR-Codes.
 
 Regeln:
 - `mailto:` enthält die Adresse **ohne** Leerzeichen, `tel:` die Nummer im
