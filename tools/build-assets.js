@@ -298,9 +298,10 @@ function buildQrSvg() {
 
 /* ------------------------------------------------------------------- vCard */
 
-/* Nur öffentliche Angaben, die auch auf der Website stehen.
-   Bewusst OHNE Telefonnummer (auf der Website noch ein Platzhalter
-   "+49 (0) 000 000 000") und ohne Anschrift. */
+/* Öffentliche Angaben des Duos – dieselben Daten wie im Kontaktbereich der
+   Website. Enthält ausschließlich die freigegebene Booking-Nummer aus
+   tools/config.js; persönliche Nummern von Vadim und Nataliya stehen
+   bewusst NICHT hier, sondern nur im localStorage ihrer Geräte. */
 function buildVCard() {
   const lines = [
     'BEGIN:VCARD',
@@ -309,6 +310,7 @@ function buildVCard() {
     'FN:Duo Infatico',
     'ORG:Duo Infatico',
     'NOTE:Duo Infatico – Nataliya Salavei (Violine) und Vadim Bektemirov (Gitarre). Bielefeld, Nordrhein-Westfalen.',
+    'TEL;TYPE=CELL:' + config.BOOKING_PHONE,
     'EMAIL;TYPE=WORK,INTERNET:' + config.EMAIL,
     'URL:' + config.SITE_URL,
     'END:VCARD'

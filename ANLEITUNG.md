@@ -42,7 +42,7 @@ Alles ist statisch: kein Server, kein Build, keine Datenbank nötig.
 | YouTube-Video 1 | `index.html` Zeile **205** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
 | YouTube-Video 2 | `index.html` Zeile **218** | `video-frame` (2. Treffer) | dito |
 | E-Mail-Adresse | `index.html` Zeile **291** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
-| Telefonnummer | `index.html` Zeile **295** | `tel:+490000000000` | `tel:`-Link + Text |
+| Telefonnummer | `index.html` Zeile **295** | `tel:` (Booking-Nummer) | `tel:`-Link + Text; die Nummer steht zentral in `tools/config.js` (`BOOKING_PHONE`) und im öffentlichen vCard |
 | Kontaktformular | `index.html` Zeile **310** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
 | Impressum-Link im Footer | `index.html` Zeile **358** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
 
@@ -166,10 +166,19 @@ Zeilen **291** und **295** in `index.html`:
 <dd><a href="tel:+491234567890">+49 123 456 7890</a></dd>
 ```
 
-> Die Nummer oben ist ein **ausdrücklich fiktiver Platzhalter** (`+491234567890`).
-> Echte persönliche Nummern gehören nicht ins Repository: Sie werden nur über
-> `/card/setup/` lokal im Browser der beiden hinterlegt und verlassen das
-> Gerät ausschließlich im URL-Fragment des persönlichen QR-Codes.
+> Die Nummer im Beispiel oben ist ein **ausdrücklich fiktiver Platzhalter**
+> (`+491234567890`) — im Projekt steht an dieser Stelle die freigegebene
+> Booking-Nummer des Duos. Sie ist zentral in `tools/config.js` als
+> `BOOKING_PHONE` hinterlegt und wird von dort in den öffentlichen vCard
+> (`card/duo-infatico.vcf`) geschrieben: nach einer Änderung
+> `node tools/build-assets.js` ausführen, damit beides gleich bleibt.
+>
+> **Persönliche** Nummern von Vadim und Nataliya gehören nicht ins Repository:
+> Sie werden nur über `/card/setup/` lokal im Browser der beiden hinterlegt und
+> verlassen das Gerät ausschließlich im URL-Fragment des persönlichen QR-Codes.
+> `tools/verify-app.js` prüft, dass die Booking-Nummer nur an den drei
+> freigegebenen Stellen (`index.html`, `card/duo-infatico.vcf`,
+> `tools/config.js`) vorkommt.
 
 Regeln:
 - `mailto:` enthält die Adresse **ohne** Leerzeichen, `tel:` die Nummer im

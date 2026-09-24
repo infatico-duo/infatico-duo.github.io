@@ -18,5 +18,11 @@ module.exports = {
   SITE_URL: 'https://infatico-duo.github.io/',
 
   // Öffentliche Kontaktadresse (steht so auf der Website)
-  EMAIL: 'infatico.duo@gmail.com'
+  EMAIL: 'infatico.duo@gmail.com',
+
+  // Freigegebene Booking-Nummer des Duos – erscheint im Kontaktbereich der
+  // Website und im öffentlichen vCard (card/duo-infatico.vcf).
+  // ACHTUNG: Nicht die persönlichen Nummern von Vadim und Nataliya eintragen;
+  // diese gehören ausschließlich in den localStorage ihrer Geräte.
+  BOOKING_PHONE: '+4915679017511'
 };

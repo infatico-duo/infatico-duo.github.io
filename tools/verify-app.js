@@ -28,6 +28,22 @@ const contactData = require('../card/contact-data.js');
 const ROOT = path.join(__dirname, '..');
 const CARD = path.join(ROOT, 'card');
 const FAKE_PHONE = '+491234567890';          // ausdrücklich erlaubte Testnummer
+const BOOKING_PHONE = config.BOOKING_PHONE;  // freigegebene Nummer des Duos
+const BOOKING_DIGITS = BOOKING_PHONE.replace(/\D/g, '');
+/* Nur in diesen Dateien darf die Booking-Nummer stehen (als vollständige
+   Nummer mit Vorwahl). Hinweis: weiter unten steht in der Tippfehler-Prüfung
+   absichtlich eine reine Ziffernfolge als unabhängiger Sollwert – würde der
+   Test sie aus config.js ableiten, könnte er einen Tippfehler dort nicht
+   erkennen. */
+const BOOKING_ALLOWED = ['index.html', 'card/duo-infatico.vcf', 'tools/config.js'];
+
+/* Anzeigeform der Nummer aus der Konfiguration ableiten – so steht die Nummer
+   nicht als Literal im Testcode und die Freigabeliste bleibt eng. */
+function displayNumber(phone) {
+  const rest = phone.replace(/^\+49/, '');
+  return '+49 ' + rest.slice(0, 3) + ' ' + rest.slice(3);
+}
+const BOOKING_DISPLAY = displayNumber(BOOKING_PHONE);
 
 const results = [];
 let failed = 0;
@@ -230,13 +246,67 @@ check('sw.js: Navigation wird pro Adresse gespeichert (nicht alles auf index.htm
 /* ------------------------------------------------------------ vCard (öffentlich) */
 
 const vcf = readText(path.join(CARD, 'duo-infatico.vcf'));
+
+/** Zerlegt eine vCard in Felder (Name ohne Parameter, Werte als Liste). */
+function parseVCard(text) {
+  const fields = {};
+  for (const line of text.split(/\r\n/)) {
+    const i = line.indexOf(':');
+    if (i <= 0) { continue; }
+    const name = line.slice(0, i).split(';')[0].toUpperCase();
+    if (!fields[name]) { fields[name] = []; }
+    fields[name].push(line.slice(i + 1));
+  }
+  return fields;
+}
+
+const vcfFields = parseVCard(vcf);
+
 check('duo-infatico.vcf: BEGIN/END korrekt',
   vcf.startsWith('BEGIN:VCARD') && vcf.trim().endsWith('END:VCARD'));
 check('duo-infatico.vcf: CRLF-Zeilenenden', vcf.indexOf('\r\n') !== -1 && !/[^\r]\n/.test(vcf));
+check('duo-infatico.vcf: VERSION 3.0', vcfFields.VERSION && vcfFields.VERSION[0] === '3.0');
+check('duo-infatico.vcf: FN und ORG gesetzt',
+  vcfFields.FN && vcfFields.FN[0] === 'Duo Infatico' && vcfFields.ORG && vcfFields.ORG[0] === 'Duo Infatico');
 check('duo-infatico.vcf: öffentliche E-Mail', vcf.indexOf(config.EMAIL) !== -1, config.EMAIL);
-check('duo-infatico.vcf: keine Telefonnummer (allgemeiner Kontakt)',
-  !/TEL[;:]/i.test(vcf));
+check('duo-infatico.vcf: Website', vcf.indexOf(config.SITE_URL) !== -1, config.SITE_URL);
 check('duo-infatico.vcf: keine Anschrift', !/^ADR/mi.test(vcf));
+
+/* Telefonnummer im öffentlichen Kontakt */
+check('duo-infatico.vcf: Booking-Nummer als TEL;TYPE=CELL',
+  vcf.indexOf('TEL;TYPE=CELL:' + BOOKING_PHONE) !== -1, BOOKING_PHONE);
+check('duo-infatico.vcf: genau ein TEL-Feld mit genau dieser Nummer',
+  (vcfFields.TEL || []).length === 1 && vcfFields.TEL[0] === BOOKING_PHONE,
+  (vcfFields.TEL || []).join(' | ') || 'kein TEL');
+check('duo-infatico.vcf: keine weiteren/persönlichen Nummern',
+  (vcfFields.TEL || []).every((t) => t === BOOKING_PHONE) &&
+  (vcf.match(/TEL/gi) || []).length === 1,
+  (vcf.match(/TEL/gi) || []).length + ' TEL-Zeilen');
+
+/* Website-Kontaktbereich: Nummer als Link und als sichtbarer Text */
+const rootHtml = readText(path.join(ROOT, 'index.html'));
+check('index.html (Website): tel:-Link mit der Booking-Nummer',
+  rootHtml.indexOf('tel:' + BOOKING_PHONE) !== -1, 'tel:' + BOOKING_PHONE);
+check('index.html (Website): Nummer auch als sichtbarer Text im Kontaktbereich',
+  rootHtml.indexOf(BOOKING_DISPLAY) !== -1, BOOKING_DISPLAY);
+check('index.html (Website): kein Telefon-Platzhalter mehr',
+  rootHtml.indexOf('+49 (0) 000 000 000') === -1 && rootHtml.indexOf('tel:+490000000000') === -1);
+
+/* Tippfehler-Schutz: dieselbe Ziffernfolge in allen drei Quellen */
+check('Booking-Nummer ohne Tippfehler in config.js und vCard',
+  readText(path.join(ROOT, 'tools', 'config.js')).indexOf(BOOKING_PHONE) !== -1 &&
+  BOOKING_DIGITS === '4915679017511',
+  'Ziffern: ' + BOOKING_DIGITS);
+check('Booking-Nummer hat gültiges Format (+49 und 10–11 Ziffern)',
+  /^\+49\d{10,11}$/.test(BOOKING_PHONE), BOOKING_PHONE + ' (' + BOOKING_DIGITS.length + ' Ziffern)');
+
+/* Persönliche vCards dürfen die Booking-Nummer NICHT enthalten */
+const contactDataJs = readText(path.join(CARD, 'contact-data.js'));
+check('contact-data.js: öffentliche Daten enthalten keine Telefonnummer',
+  findPhoneLike(contactDataJs, 'card/contact-data.js').length === 0 &&
+  !/PUBLIC\s*=\s*\{[^}]*phone/i.test(contactDataJs));
+check('contact-data.js: persönliche vCard nutzt nur die Nummer aus dem Fragment',
+  contactDataJs.indexOf("'TEL;TYPE=CELL:' + escapeVCard(phone.value)") !== -1);
 
 /* --------------------------------------------- Datenschutz: Nummern-Scan */
 
@@ -250,18 +320,29 @@ function walk(dir, out) {
   return out;
 }
 
-/** Findet telefonartige Zahlen; Platzhalter (nur Nullen) und die Testnummer sind erlaubt.
-    Absichtlich streng: die Ziffernfolge muss mit „+<Ziffer>" oder „0<Ziffer>" beginnen,
-    damit Maßangaben wie viewBox="0 0 1920 1080" nicht als Nummer gelten. */
-function findPhoneLike(text) {
+/** Findet telefonartige Zahlen. Erlaubt sind:
+      – Platzhalter aus lauter Nullen (000 …)
+      – die ausdrückliche Testnummer (FAKE_PHONE, überall)
+      – die freigegebene Booking-Nummer (BOOKING_PHONE) NUR in den Dateien,
+        in denen sie bewusst steht (Website-Kontakt, öffentliche vCard, config).
+    Jede andere Nummer ist ein Fehler – so bleiben persönliche Nummern draußen.
+    Absichtlich streng: die Ziffernfolge muss mit „+<Ziffer>" oder „0<Ziffer>"
+    beginnen, damit Maßangaben wie viewBox="0 0 1920 1080" nicht zählen. */
+function findPhoneLike(text, relPath) {
   const hits = [];
   const re = /(\+[0-9][0-9 ()\/.\-]{7,}|\b0[0-9][0-9 ()\/.\-]{6,})/g;
   let m;
   while ((m = re.exec(text)) !== null) {
     const digits = m[0].replace(/\D/g, '');
     if (digits.length < 9) { continue; }
-    if (/^0+$/.test(digits) || /^490+$/.test(digits)) { continue; }     // Platzhalter 000…
-    if (digits === FAKE_PHONE.replace(/\D/g, '')) { continue; }          // erlaubte Testnummer
+    if (/^0+$/.test(digits) || /^490+$/.test(digits)) { continue; }          // Platzhalter 000…
+    if (digits === FAKE_PHONE.replace(/\D/g, '')) { continue; }               // Testnummer
+    if (digits === BOOKING_DIGITS) {
+      if (relPath && BOOKING_ALLOWED.indexOf(relPath) === -1) {
+        hits.push(m[0].trim() + ' (nicht freigegebene Datei)');
+      }
+      continue;
+    }
     hits.push(m[0].trim());
   }
   return hits;
@@ -270,14 +351,22 @@ function findPhoneLike(text) {
 const allFiles = walk(ROOT, []);
 const phoneHits = [];
 for (const file of allFiles) {
-  const text = readText(file);
-  const hits = findPhoneLike(text);
+  const rel = path.relative(ROOT, file).split(path.sep).join('/');
+  const hits = findPhoneLike(readText(file), rel);
   if (hits.length) {
-    phoneHits.push(path.relative(ROOT, file) + ': ' + hits.join(', '));
+    phoneHits.push(rel + ': ' + hits.join(', '));
   }
 }
-check('Datenschutz: keine echten Telefonnummern im Repository (' + allFiles.length + ' Dateien geprüft)',
+check('Datenschutz: keine fremden/persönlichen Telefonnummern (' + allFiles.length + ' Dateien geprüft)',
   phoneHits.length === 0, phoneHits.join(' | '));
+
+check('Datenschutz: Booking-Nummer erscheint nur an den freigegebenen Stellen',
+  allFiles.filter((f) => {
+    const rel = path.relative(ROOT, f).split(path.sep).join('/');
+    return readText(f).indexOf(config.BOOKING_PHONE) !== -1;
+  }).map((f) => path.relative(ROOT, f).split(path.sep).join('/'))
+    .filter((rel) => BOOKING_ALLOWED.indexOf(rel) === -1).length === 0,
+  'erlaubt: ' + BOOKING_ALLOWED.join(', '));
 
 check('Datenschutz: keine persönlichen vCard-Dateien im Repository',
   !fs.existsSync(path.join(CARD, 'vadim.vcf')) &&
