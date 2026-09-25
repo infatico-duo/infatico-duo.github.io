@@ -218,6 +218,32 @@ Zeile **304** in `index.html`:
 | `_captcha` | `true` = reCAPTCHA vor dem Absenden (Spamschutz) |
 | `_template` | `table` = übersichtliche Tabelle in der Mail |
 | `_next` | Seite nach dem Absenden: `danke.html` |
+| `_autoresponse` | Automatische Antwort an den Absender (Text siehe unten) |
+
+### Automatische Antwort (_autoresponse)
+
+FormSubmit schickt dem Absender sofort eine Bestätigung, sobald das Feld
+`_autoresponse` gesetzt ist. Zwei Bedingungen nennt der Dienst ausdrücklich:
+das Formular muss ein Feld `name="email"` haben **und** darf das reCAPTCHA
+nicht deaktiviert haben (`_captcha` darf nicht `false` sein). Beides ist hier
+erfüllt.
+
+Der Text ist **zweisprachig** (Deutsch, danach Englisch). Grund: FormSubmit
+kennt **keine** Sprachvarianten — laut Dokumentation gibt es nur
+`_autoresponse`; ein Feld `_autoresponse_en` existiert nicht und wurde
+deshalb wieder entfernt (es hätte nur als unbekanntes Feld im Formular
+gestanden, ohne eine englische Antwort zu erzeugen).
+
+Die Zeilenumbrüche stehen im Attributwert als `&#10;`. Der Browser löst sie
+zu echten Zeilenumbrüchen auf, sodass die Mail korrekt gegliedert ankommt:
+
+```html
+<input type="hidden" name="_autoresponse" value="… melden.&#10;&#10;Thank you … possible.&#10;&#10;Herzliche Grüße / Best regards,&#10;Nataliya Salavei &amp; Vadim Bektemirov">
+```
+
+Geändert wird der Text in `index.html` in der Zeile mit `name="_autoresponse"`.
+`tools/verify-app.js` prüft, dass der Wert deutsch **und** englisch enthält
+und dass `_autoresponse_en` nicht mehr vorkommt.
 
 `script.js` prüft die Eingaben weiterhin **vor** dem Absenden (leere Felder,
 ungültige E-Mail). Nur bei einem Fehler wird das Absenden verhindert

@@ -399,9 +399,21 @@ check('Kontaktformular: action zeigt auf FormSubmit mit der öffentlichen Adress
   formTag || 'nicht gefunden');
 check('Kontaktformular: method="POST"', /\smethod="POST"/.test(formTag));
 
+/** HTML-Entitäten in Attributwerten auflösen (&amp;, &#10; …). */
+function decodeEntities(value) {
+  if (value === null || value === undefined) { return value; }
+  return String(value)
+    .replace(/&#(\d+);/g, (m, code) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (m, code) => String.fromCharCode(parseInt(code, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+}
+
 function hiddenValue(name) {
   const m = rootHtml.match(new RegExp('<input type="hidden" name="' + name + '" value="([^"]*)">'));
-  return m ? m[1] : null;
+  return m ? decodeEntities(m[1]) : null;
 }
 
 check('Kontaktformular: _subject gesetzt',
@@ -410,6 +422,40 @@ check('Kontaktformular: _captcha = true', hiddenValue('_captcha') === 'true', hi
 check('Kontaktformular: _template = table', hiddenValue('_template') === 'table', hiddenValue('_template'));
 check('Kontaktformular: _next zeigt auf die Danke-Seite',
   hiddenValue('_next') === config.SITE_URL + 'danke.html', hiddenValue('_next'));
+
+/* Automatische Antwort (FormSubmit: "_autoresponse").
+   FormSubmit kennt keine Sprachvarianten – deshalb EIN zweisprachiger Text. */
+const AUTORESPONSE =
+  'Vielen Dank für Ihre Nachricht an Duo Infatico! Wir haben Ihre Anfrage erhalten und werden uns ' +
+  'so schnell wie möglich bei Ihnen melden.' +
+  '\n\n' +
+  'Thank you for your message to Duo Infatico! We have received your inquiry and will get back to ' +
+  'you as soon as possible.' +
+  '\n\n' +
+  'Herzliche Grüße / Best regards,' +
+  '\n' +
+  'Nataliya Salavei & Vadim Bektemirov';
+
+const autoresponse = hiddenValue('_autoresponse');
+
+check('Kontaktformular: _autoresponse enthält den abgestimmten zweisprachigen Text',
+  autoresponse === AUTORESPONSE,
+  (autoresponse || 'fehlt').slice(0, 70) + '…');
+check('Kontaktformular: _autoresponse enthält deutschen UND englischen Text',
+  !!autoresponse && autoresponse.indexOf('Vielen Dank') !== -1 && autoresponse.indexOf('Thank you') !== -1);
+check('Kontaktformular: _autoresponse enthält echte Zeilenumbrüche (&#10;)',
+  !!autoresponse && (autoresponse.match(/\n/g) || []).length === 5,
+  ((autoresponse || '').match(/\n/g) || []).length + ' Zeilenumbrüche (erwartet 5)');
+check('Kontaktformular: kein _autoresponse_en-Feld mehr (existiert bei FormSubmit nicht)',
+  !/name="_autoresponse_en"/.test(rootHtml) && hiddenValue('_autoresponse_en') === null,
+  'Erwähnung im Kommentar ist erlaubt, ein Feld nicht');
+
+check('Kontaktformular: E-Mail-Feld für den Autoresponder vorhanden (name="email")',
+  /<input[^>]*type="email"[^>]*name="email"/.test(rootHtml) ||
+  /<input[^>]*name="email"[^>]*type="email"/.test(rootHtml));
+check('Kontaktformular: Voraussetzungen des Autoresponders erfüllt (email-Feld, reCAPTCHA aktiv)',
+  hiddenValue('_captcha') === 'true' && /name="email"/.test(rootHtml) && autoresponse !== null,
+  'captcha=' + hiddenValue('_captcha'));
 
 check('Kontaktformular: kein Demo-Hinweis mehr (DE/EN/RU)',
   !/Demo-Formular|Demo form|Демо-форма/i.test(rootHtml + scriptJs));

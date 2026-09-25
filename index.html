@@ -308,6 +308,12 @@
           <input type="hidden" name="_captcha" value="true">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_next" value="https://infatico-duo.github.io/danke.html">
+          <!-- Automatische Antwort an den Absender: zweisprachig in EINEM Feld.
+               FormSubmit kennt keine Sprachvarianten (ein Feld "_autoresponse_en"
+               existiert nicht), deshalb stehen beide Fassungen zusammen hier.
+               Die Zeilenumbrüche sind als &#10; kodiert und kommen beim Dienst
+               als echte Zeilenumbrüche an. -->
+          <input type="hidden" name="_autoresponse" value="Vielen Dank für Ihre Nachricht an Duo Infatico! Wir haben Ihre Anfrage erhalten und werden uns so schnell wie möglich bei Ihnen melden.&#10;&#10;Thank you for your message to Duo Infatico! We have received your inquiry and will get back to you as soon as possible.&#10;&#10;Herzliche Grüße / Best regards,&#10;Nataliya Salavei &amp; Vadim Bektemirov">
 
           <div class="field">
             <label for="cf-name" data-de="Name" data-en="Name" data-ru="Имя">Name</label>
