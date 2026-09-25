@@ -191,61 +191,76 @@ Regeln:
 
 ---
 
-## 6. Kontaktformular aktivieren
+## 6. Kontaktformular (FormSubmit — bereits eingerichtet)
 
-Aktuell ist das Formular eine **Demo**: `script.js` fängt das Absenden ab und
-zeigt nur eine Meldung. Es werden keine Daten versendet.
-
-### Variante A — FormSubmit (kein Konto, am schnellsten)
+Das Formular ist **aktiv** und sendet echte Anfragen an
+`infatico.duo@gmail.com`. Der Versand läuft über den Dienst
+[FormSubmit](https://formsubmit.co) — kostenlos, ohne Konto.
 
 Zeile **304** in `index.html`:
 
 ```html
 <form class="contact-form" id="contact-form"
-      action="https://formsubmit.co/infatico.duo@gmail.com" method="POST">
-  <input type="hidden" name="_subject" value="Neue Booking-Anfrage – Duo Infatico">
+      action="https://formsubmit.co/infatico.duo@gmail.com" method="POST" novalidate>
+  <input type="hidden" name="_subject" value="Neue Anfrage von Duo Infatico Website">
+  <input type="hidden" name="_captcha" value="true">
   <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-  <!-- ab hier die vorhandenen Felder unverändert lassen -->
+  <input type="hidden" name="_next" value="https://infatico-duo.github.io/danke.html">
+  <!-- ab hier die sichtbaren Felder: name, email, message -->
 ```
 
-Danach in `script.js` im Submit-Handler die Demo-Zeilen ersetzen:
+### Was die Felder bedeuten
 
-```js
-// vorher
-setStatus(msg.ok, 'is-ok');
-form.reset();
+| Feld | Zweck |
+|---|---|
+| `action` | Zieladresse für alle Anfragen (hier die öffentliche Gmail-Adresse) |
+| `_subject` | Betreff der eingehenden Mail |
+| `_captcha` | `true` = reCAPTCHA vor dem Absenden (Spamschutz) |
+| `_template` | `table` = übersichtliche Tabelle in der Mail |
+| `_next` | Seite nach dem Absenden: `danke.html` |
 
-// nachher
-form.submit();          // Daten wirklich an FormSubmit senden
-```
+`script.js` prüft die Eingaben weiterhin **vor** dem Absenden (leere Felder,
+ungültige E-Mail). Nur bei einem Fehler wird das Absenden verhindert
+(`event.preventDefault()`) — sonst gehen die Daten direkt an FormSubmit.
 
-Beim ersten Absenden schickt FormSubmit eine Bestätigungsmail an die Adresse —
-erst nach dem Klick darauf werden Anfragen zugestellt.
+### Einmalige Aktivierung
 
-### Variante B — Formspree (Konto, kostenloser Tarif)
+Nach der ersten Übermittlung schickt FormSubmit eine **Bestätigungsmail** an
+`infatico.duo@gmail.com`. Erst nach dem Klick auf den Link darin werden
+Anfragen zugestellt. Solange die Aktivierung fehlt, zeigt das Formular nach
+dem Absenden nur den FormSubmit-Hinweis „This form needs Activation“.
 
-```html
-<form class="contact-form" id="contact-form"
-      action="https://formspree.io/f/DEINE_FORM_ID" method="POST">
-  <input type="hidden" name="_subject" value="Neue Booking-Anfrage – Duo Infatico">
-```
+### Adresse ändern oder Dienst wechseln
 
-Die `DEINE_FORM_ID` steht im Formspree-Dashboard. Die Änderung in `script.js`
-ist identisch (`form.submit()`).
+1. Neuen Wert im `action`-Attribut eintragen (Zeile **304**).
+2. `danke.html` bleibt unverändert.
+3. Einmal testweise abschicken und die Adresse bestätigen.
 
-### Danach aufräumen
+Alternativ lässt sich jeder andere Dienst verwenden (z. B. Formspree); dazu
+nur `action` und die versteckten Felder anpassen.
 
-Den Hinweis unter dem Button entfernen (Suchbegriff
-`Demo-Formular: Es werden keine Daten versendet.`) — sonst steht dort
-fälschlich, es werde nichts gesendet. Der Text existiert dreisprachig.
+### Danke-Seite
+
+`danke.html` erscheint nach dem Absenden (über `_next`), ist dreisprachig,
+trägt `noindex` und liest die zuletzt gewählte Sprache aus dem localStorage.
 
 ### Wichtig
 
 Wer ein Kontaktformular anbietet, verarbeitet personenbezogene Daten und
 braucht dafür eine **Datenschutzerklärung** (Art. 13 DSGVO) sowie einen Link
-darauf im Footer — siehe nächster Abschnitt.
+darauf im Footer — siehe nächster Abschnitt. Seit der Anbindung an FormSubmit
+muss dort auch dieser Dienst als Empfänger genannt werden.
+
+### Spamschutz
+
+`_captcha=true` schaltet das reCAPTCHA von FormSubmit ein. Zusätzlich kann ein
+unsichtbares Honigtopf-Feld ergänzt werden:
+
+```html
+<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+```
+
+Bots füllen es aus, Menschen nicht – FormSubmit verwirft solche Anfragen.
 
 ---
 
@@ -353,12 +368,16 @@ Jeder übersetzbare Text hat drei Attribute:
 - [ ] Porträts und Alt-Texte (Bildbeschreibungen) eingetragen
 - [ ] Biografien in DE / EN / RU geschrieben
 - [ ] Audio-Dateien in `audio/` und `<source>`-Tags aktiviert, Titel benannt
-- [ ] Hinweistexte zu Platzhaltern entfernt (Audio-Hinweis, Demo-Hinweis)
+- [ ] Hinweistexte zu Platzhaltern entfernt (Audio-Hinweis ist noch offen)
 - [ ] YouTube-Videos eingebettet, `VIDEO_ID` ersetzt
 - [ ] Konzerttermine eingetragen (oder Abschnitt entfernt, falls keine anstehen)
 - [ ] E-Mail und Telefon real, `mailto:` und `tel:` geprüft (Testanruf/-mail)
-- [ ] Formular mit `action` verbunden und einmal testweise abgeschickt
+- [x] Formular mit FormSubmit verbunden (`action` + versteckte Felder)
+- [ ] **FormSubmit aktiviert** – Bestätigungslink aus der Mail an
+      `infatico.duo@gmail.com` angeklickt und Testanfrage erhalten
+- [ ] Danke-Seite `danke.html` online erreichbar (`_next` zeigt darauf)
 - [ ] Impressum und Datenschutzerklärung verlinkt und vollständig
+      (darin FormSubmit als Empfänger der Formulardaten nennen)
 - [ ] Auf dem Handy geprüft (Menü, Formular, Lesbarkeit)
 - [ ] Alle drei Sprachen durchgeklickt (DE / EN / RU)
 - [ ] Seite im Browser mit Strg+F5 neu geladen, danach online geprüft

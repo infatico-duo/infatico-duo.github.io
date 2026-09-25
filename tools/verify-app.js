@@ -388,6 +388,75 @@ check('Datenschutz: card.js baut keine Adresse aus einer festen Domain',
 check('Datenschutz: Kontakt-Link wird relativ zu document.baseURI gebaut',
   /document\.baseURI/.test(cardJs) && /document\.baseURI/.test(readText(path.join(CARD, 'contact-data.js'))));
 
+/* ------------------------------------------- Kontaktformular (FormSubmit) */
+
+const scriptJs = readText(path.join(ROOT, 'script.js'));
+const formTag = (rootHtml.match(/<form[^>]*id="contact-form"[^>]*>/) || [''])[0];
+
+check('Kontaktformular gefunden', formTag !== '');
+check('Kontaktformular: action zeigt auf FormSubmit mit der öffentlichen Adresse',
+  formTag.indexOf('action="https://formsubmit.co/' + config.EMAIL + '"') !== -1,
+  formTag || 'nicht gefunden');
+check('Kontaktformular: method="POST"', /\smethod="POST"/.test(formTag));
+
+function hiddenValue(name) {
+  const m = rootHtml.match(new RegExp('<input type="hidden" name="' + name + '" value="([^"]*)">'));
+  return m ? m[1] : null;
+}
+
+check('Kontaktformular: _subject gesetzt',
+  hiddenValue('_subject') === 'Neue Anfrage von Duo Infatico Website', hiddenValue('_subject'));
+check('Kontaktformular: _captcha = true', hiddenValue('_captcha') === 'true', hiddenValue('_captcha'));
+check('Kontaktformular: _template = table', hiddenValue('_template') === 'table', hiddenValue('_template'));
+check('Kontaktformular: _next zeigt auf die Danke-Seite',
+  hiddenValue('_next') === config.SITE_URL + 'danke.html', hiddenValue('_next'));
+
+check('Kontaktformular: kein Demo-Hinweis mehr (DE/EN/RU)',
+  !/Demo-Formular|Demo form|Демо-форма/i.test(rootHtml + scriptJs));
+
+check('script.js: Absenden wird nicht mehr pauschal verhindert (nur bei Fehlern)',
+  (scriptJs.match(/event\.preventDefault\(\)/g) || []).length === 2 &&
+  scriptJs.indexOf('setStatus(msg.sending') !== -1,
+  (scriptJs.match(/event\.preventDefault\(\)/g) || []).length + ' preventDefault-Aufrufe, sending-Text: ' +
+  (scriptJs.indexOf('setStatus(msg.sending') !== -1 ? 'ja' : 'nein'));
+check('script.js: kein Demo-Erfolgstext mehr',
+  !/msg\.ok|keine Daten versendet|no data has been sent/.test(scriptJs));
+
+/* ------------------------------------------------------------ Danke-Seite */
+
+const dankePath = path.join(ROOT, 'danke.html');
+check('danke.html: vorhanden', fs.existsSync(dankePath));
+
+if (fs.existsSync(dankePath)) {
+  const dankeBuf = read(dankePath);
+  const danke = dankeBuf.toString('utf8');
+
+  check('danke.html: UTF-8 ohne BOM',
+    !(dankeBuf[0] === 0xEF && dankeBuf[1] === 0xBB && dankeBuf[2] === 0xBF) &&
+    Buffer.from(danke, 'utf8').equals(dankeBuf));
+
+  const dankeHead = danke.slice(danke.indexOf('<head>') + 6, danke.indexOf('</head>'));
+  check('danke.html: <meta charset="UTF-8"> ist der erste Eintrag im <head>',
+    /^<meta charset="UTF-8">$/i.test((dankeHead.match(/<[a-z][^>]*>/i) || [''])[0]));
+
+  check('danke.html: Dankestext in DE/EN/RU',
+    danke.indexOf('Vielen Dank für Ihre Anfrage!') !== -1 &&
+    danke.indexOf('Thank you for your request!') !== -1 &&
+    danke.indexOf('Спасибо за вашу заявку!') !== -1);
+  check('danke.html: Sprachumschaltung DE/EN/RU',
+    (danke.match(/data-lang="/g) || []).length === 3,
+    (danke.match(/data-lang="/g) || []).length + ' Schaltflächen');
+  check('danke.html: nutzt das Design der Website', danke.indexOf('href="style.css"') !== -1);
+  check('danke.html: nicht indexierbar', /name="robots"[^>]*noindex/i.test(danke));
+
+  const dankeRefs = (danke.match(/(?:src|href)="([^"]+)"/g) || [])
+    .map((m) => m.replace(/^(?:src|href)="/, '').replace(/"$/, ''))
+    .filter((u) => !/^(https?:|mailto:|tel:|#|\.\/$)/.test(u));
+  const dankeMissing = dankeRefs.filter((u) => !fs.existsSync(path.join(ROOT, u)));
+  check('danke.html: alle lokalen Verweise existieren', dankeMissing.length === 0,
+    dankeMissing.join(', ') || dankeRefs.length + ' Verweise geprüft');
+}
+
 /* --------------------------------------------------- Drei QR-Modi (Dekodierung) */
 
 function decodeQr(matrix) { return decoder.decode(matrix); }

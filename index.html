@@ -301,7 +301,14 @@
           </dl>
         </div>
 
-        <form class="contact-form" id="contact-form" novalidate>
+        <form class="contact-form" id="contact-form"
+              action="https://formsubmit.co/infatico.duo@gmail.com" method="POST" novalidate>
+          <!-- FormSubmit: Konfiguration der Zustellung -->
+          <input type="hidden" name="_subject" value="Neue Anfrage von Duo Infatico Website">
+          <input type="hidden" name="_captcha" value="true">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://infatico-duo.github.io/danke.html">
+
           <div class="field">
             <label for="cf-name" data-de="Name" data-en="Name" data-ru="Имя">Name</label>
             <input type="text" id="cf-name" name="name" autocomplete="name" required
@@ -330,12 +337,6 @@
                   data-de="Anfrage senden" data-en="Send request" data-ru="Отправить заявку">Anfrage senden</button>
 
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-
-          <p class="note note-tight"
-             data-de="Demo-Formular: Es werden keine Daten versendet." data-en="Demo form: no data will be sent."
-             data-ru="Демо-форма: данные никуда не отправляются.">
-            Demo-Formular: Es werden keine Daten versendet.
-          </p>
         </form>
       </div>
     </div>

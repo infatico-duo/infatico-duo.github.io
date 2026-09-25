@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vielen Dank – Duo Infatico</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="images/hero.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Nur für diese Seite: zentrierte Anordnung, ohne style.css zu verändern */
+  .danke-main {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.25rem 4rem;
+  }
+  .danke-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: 2.5rem;
+  }
+  .danke-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 8vw, 3.1rem);
+    margin-bottom: 1rem;
+  }
+  .danke-text {
+    max-width: 34rem;
+    font-size: clamp(1.02rem, 3.4vw, 1.2rem);
+    color: var(--text-soft);
+    margin-bottom: 2rem;
+  }
+  .danke-lang {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+  }
+  .danke-footer {
+    margin-top: 2.5rem;
+    font-size: .8rem;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="danke-lang">
+  <div class="lang-switch" role="group" aria-label="Sprache / Language / Язык">
+    <button type="button" class="lang-btn is-active" data-lang="de" lang="de" aria-pressed="true">DE</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="lang-btn" data-lang="ru" lang="ru" aria-pressed="false">RU</button>
+  </div>
+</header>
+
+<main class="danke-main">
+
+  <span class="danke-brand">
+    <span class="brand-mark" aria-hidden="true">DI</span>
+    <span class="brand-name">Duo Infatico</span>
+  </span>
+
+  <h1 class="danke-title"
+      data-de="Vielen Dank für Ihre Anfrage!" data-en="Thank you for your request!" data-ru="Спасибо за вашу заявку!">Vielen Dank für Ihre Anfrage!</h1>
+
+  <p class="danke-text"
+     data-de="Ihre Nachricht ist bei uns eingegangen. Wir melden uns so bald wie möglich bei Ihnen – in der Regel innerhalb von ein bis zwei Tagen."
+     data-en="We have received your message and will get back to you as soon as possible – usually within one or two days."
+     data-ru="Ваше сообщение получено. Мы свяжемся с вами в ближайшее время — как правило, в течение одного-двух дней.">
+    Ihre Nachricht ist bei uns eingegangen. Wir melden uns so bald wie möglich bei Ihnen – in der Regel innerhalb von ein bis zwei Tagen.
+  </p>
+
+  <p>
+    <a class="btn btn-primary" href="./"
+       data-de="Zurück zur Startseite" data-en="Back to the homepage" data-ru="На главную страницу">Zurück zur Startseite</a>
+  </p>
+
+  <p class="danke-footer">Duo Infatico · Violine &amp; Gitarre · Bielefeld</p>
+
+</main>
+
+<script>
+/* Eigenständige Sprachumschaltung nur für diese Seite – bewusst ohne
+   Abhängigkeit von /card/, damit die Seite nach dem Absenden des Formulars
+   auch dann funktioniert, wenn die PWA-Dateien nicht geladen werden.
+   Die gewählte Sprache wird wie auf der Website in "duo-infatico-lang"
+   gespeichert, sodass die Seite die Sprache des Formulars übernimmt. */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'duo-infatico-lang';
+  var LANGS = ['de', 'en', 'ru'];
+  var DEFAULT_LANG = 'de';
+  var TITLES = {
+    de: 'Vielen Dank – Duo Infatico',
+    en: 'Thank you – Duo Infatico',
+    ru: 'Спасибо — Duo Infatico'
+  };
+
+  function isSupported(lang) { return LANGS.indexOf(lang) !== -1; }
+
+  function applyLanguage(lang) {
+    if (!isSupported(lang)) { lang = DEFAULT_LANG; }
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-de]'), function (el) {
+      var value = el.getAttribute('data-' + lang);
+      if (value === null) { value = el.getAttribute('data-de'); }
+      if (value !== null) { el.textContent = value; }
+    });
+
+    document.documentElement.setAttribute('lang', lang);
+    document.title = TITLES[lang] || TITLES[DEFAULT_LANG];
+
+    Array.prototype.forEach.call(document.querySelectorAll('.lang-btn'), function (btn) {
+      var active = btn.getAttribute('data-lang') === lang;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.lang-btn'), function (btn) {
+    btn.addEventListener('click', function () {
+      applyLanguage(btn.getAttribute('data-lang'));
+    });
+  });
+
+  var fromUrl = null;
+  var stored = null;
+  try { fromUrl = new URLSearchParams(window.location.search).get('lang'); } catch (e) { /* ignore */ }
+  try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+
+  applyLanguage(isSupported(fromUrl) ? fromUrl : (isSupported(stored) ? stored : DEFAULT_LANG));
+}());
+</script>
+
+</body>
+</html>

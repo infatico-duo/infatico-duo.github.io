@@ -29,17 +29,17 @@
     de: {
       empty:   'Bitte alle Felder ausfüllen.',
       badMail: 'Bitte eine gültige E-Mail-Adresse angeben.',
-      ok:      'Vielen Dank! Dies ist eine Demo – es wurden keine Daten versendet.'
+      sending: 'Anfrage wird gesendet …'
     },
     en: {
       empty:   'Please fill in all fields.',
       badMail: 'Please enter a valid email address.',
-      ok:      'Thank you! This is a demo – no data has been sent.'
+      sending: 'Sending your request …'
     },
     ru: {
       empty:   'Пожалуйста, заполните все поля.',
       badMail: 'Пожалуйста, укажите корректный email.',
-      ok:      'Спасибо! Это демо-форма — данные никуда не отправлены.'
+      sending: 'Отправляем заявку …'
     }
   };
 
@@ -183,8 +183,10 @@
   }
 
   if (form) {
+    /* Die Prüfung läuft vor dem Absenden. Ist alles in Ordnung, wird das
+       Absenden NICHT verhindert – die Daten gehen dann direkt an den
+       FormSubmit-Endpunkt aus dem action-Attribut des Formulars. */
     form.addEventListener('submit', function (event) {
-      event.preventDefault();
       clearErrors();
 
       var msg = MESSAGES[currentLang()] || MESSAGES[DEFAULT_LANG];
@@ -198,6 +200,7 @@
       });
 
       if (empty.length) {
+        event.preventDefault();
         empty.forEach(function (el) {
           if (el.parentElement) { el.parentElement.classList.add('has-error'); }
         });
@@ -208,14 +211,15 @@
 
       var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailField.value.trim());
       if (!mailOk) {
+        event.preventDefault();
         if (mailField.parentElement) { mailField.parentElement.classList.add('has-error'); }
         setStatus(msg.badMail, 'is-error');
         mailField.focus();
         return;
       }
 
-      setStatus(msg.ok, 'is-ok');
-      form.reset();
+      // Gültig: Absenden zulassen, kurze Rückmeldung anzeigen
+      setStatus(msg.sending, 'is-ok');
     });
   }
 
