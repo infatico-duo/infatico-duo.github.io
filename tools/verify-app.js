@@ -388,85 +388,54 @@ check('Datenschutz: card.js baut keine Adresse aus einer festen Domain',
 check('Datenschutz: Kontakt-Link wird relativ zu document.baseURI gebaut',
   /document\.baseURI/.test(cardJs) && /document\.baseURI/.test(readText(path.join(CARD, 'contact-data.js'))));
 
-/* ------------------------------------------- Kontaktformular (FormSubmit) */
+/* ------------------------------------ Kontaktformular (Cloudflare Worker) */
 
 const scriptJs = readText(path.join(ROOT, 'script.js'));
 const formTag = (rootHtml.match(/<form[^>]*id="contact-form"[^>]*>/) || [''])[0];
 
+const WORKER_URL = 'https://infatico-form-handler.infatico-duo.workers.dev';
+const TURNSTILE_SITEKEY = '0x4AAAAAAFDs1nZawZnkWJSD';
+const FORMSUBMIT_FIELDS = ['_subject', '_captcha', '_next', '_template',
+  '_autoresponse', '_autoresponse_en', '_honey'];
+
 check('Kontaktformular gefunden', formTag !== '');
-check('Kontaktformular: action zeigt auf FormSubmit mit der öffentlichen Adresse',
-  formTag.indexOf('action="https://formsubmit.co/' + config.EMAIL + '"') !== -1,
-  formTag || 'nicht gefunden');
+check('Kontaktformular: action zeigt auf den Cloudflare Worker',
+  formTag.indexOf('action="' + WORKER_URL + '"') !== -1, formTag || 'nicht gefunden');
 check('Kontaktformular: method="POST"', /\smethod="POST"/.test(formTag));
+check('Kontaktformular: keine FormSubmit-Adresse mehr', !/formsubmit\.co/i.test(rootHtml));
 
-/** HTML-Entitäten in Attributwerten auflösen (&amp;, &#10; …). */
-function decodeEntities(value) {
-  if (value === null || value === undefined) { return value; }
-  return String(value)
-    .replace(/&#(\d+);/g, (m, code) => String.fromCharCode(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (m, code) => String.fromCharCode(parseInt(code, 16)))
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&');
-}
+/* Nur die drei sichtbaren Felder, ohne versteckte FormSubmit-Felder */
+check('Kontaktformular: Feld name="name"', /<input[^>]*name="name"/.test(rootHtml));
+check('Kontaktformular: Feld name="email" (type=email, required)',
+  /<input[^>]*type="email"[^>]*name="email"[^>]*required/.test(rootHtml) ||
+  /<input[^>]*name="email"[^>]*type="email"[^>]*required/.test(rootHtml));
+check('Kontaktformular: Feld name="message"', /<textarea[^>]*name="message"/.test(rootHtml));
+check('Kontaktformular: keine versteckten FormSubmit-Felder',
+  FORMSUBMIT_FIELDS.every((f) => rootHtml.indexOf('name="' + f + '"') === -1),
+  FORMSUBMIT_FIELDS.filter((f) => rootHtml.indexOf('name="' + f + '"') !== -1).join(', ') || 'keine gefunden');
+check('Kontaktformular: kein novalidate (native Browser-Prüfung aktiv)',
+  !/\snovalidate/.test(formTag));
 
-function hiddenValue(name) {
-  const m = rootHtml.match(new RegExp('<input type="hidden" name="' + name + '" value="([^"]*)">'));
-  return m ? decodeEntities(m[1]) : null;
-}
+/* Cloudflare Turnstile */
+check('Turnstile-Widget im Formular (sitekey, helles Theme)',
+  rootHtml.indexOf('<div class="cf-turnstile" data-sitekey="' + TURNSTILE_SITEKEY + '" data-theme="light">') !== -1);
+check('Turnstile-Widget steht vor dem Absende-Knopf',
+  rootHtml.indexOf('cf-turnstile') < rootHtml.indexOf('id="contact-form"') + 3000 &&
+  rootHtml.indexOf('cf-turnstile') < rootHtml.indexOf('data-de="Anfrage senden"'));
+check('Turnstile-Skript im <head>',
+  /<script src="https:\/\/challenges\.cloudflare\.com\/turnstile\/v0\/api\.js"[^>]*><\/script>/.test(rootHtml) &&
+  rootHtml.indexOf('challenges.cloudflare.com/turnstile') < rootHtml.indexOf('</head>'));
+check('Turnstile-Kommentar vorhanden', /<!-- Cloudflare Turnstile — sitekey öffentlich -->/.test(rootHtml));
 
-check('Kontaktformular: _subject gesetzt',
-  hiddenValue('_subject') === 'Neue Anfrage von Duo Infatico Website', hiddenValue('_subject'));
-check('Kontaktformular: _captcha = true', hiddenValue('_captcha') === 'true', hiddenValue('_captcha'));
-check('Kontaktformular: _template = table', hiddenValue('_template') === 'table', hiddenValue('_template'));
-check('Kontaktformular: _next zeigt auf die Danke-Seite',
-  hiddenValue('_next') === config.SITE_URL + 'danke.html', hiddenValue('_next'));
-
-/* Automatische Antwort (FormSubmit: "_autoresponse").
-   FormSubmit kennt keine Sprachvarianten – deshalb EIN zweisprachiger Text. */
-const AUTORESPONSE =
-  'Vielen Dank für Ihre Nachricht an Duo Infatico! Wir haben Ihre Anfrage erhalten und werden uns ' +
-  'so schnell wie möglich bei Ihnen melden.' +
-  '\n\n' +
-  'Thank you for your message to Duo Infatico! We have received your inquiry and will get back to ' +
-  'you as soon as possible.' +
-  '\n\n' +
-  'Herzliche Grüße / Best regards,' +
-  '\n' +
-  'Nataliya Salavei & Vadim Bektemirov';
-
-const autoresponse = hiddenValue('_autoresponse');
-
-check('Kontaktformular: _autoresponse enthält den abgestimmten zweisprachigen Text',
-  autoresponse === AUTORESPONSE,
-  (autoresponse || 'fehlt').slice(0, 70) + '…');
-check('Kontaktformular: _autoresponse enthält deutschen UND englischen Text',
-  !!autoresponse && autoresponse.indexOf('Vielen Dank') !== -1 && autoresponse.indexOf('Thank you') !== -1);
-check('Kontaktformular: _autoresponse enthält echte Zeilenumbrüche (&#10;)',
-  !!autoresponse && (autoresponse.match(/\n/g) || []).length === 5,
-  ((autoresponse || '').match(/\n/g) || []).length + ' Zeilenumbrüche (erwartet 5)');
-check('Kontaktformular: kein _autoresponse_en-Feld mehr (existiert bei FormSubmit nicht)',
-  !/name="_autoresponse_en"/.test(rootHtml) && hiddenValue('_autoresponse_en') === null,
-  'Erwähnung im Kommentar ist erlaubt, ein Feld nicht');
-
-check('Kontaktformular: E-Mail-Feld für den Autoresponder vorhanden (name="email")',
-  /<input[^>]*type="email"[^>]*name="email"/.test(rootHtml) ||
-  /<input[^>]*name="email"[^>]*type="email"/.test(rootHtml));
-check('Kontaktformular: Voraussetzungen des Autoresponders erfüllt (email-Feld, reCAPTCHA aktiv)',
-  hiddenValue('_captcha') === 'true' && /name="email"/.test(rootHtml) && autoresponse !== null,
-  'captcha=' + hiddenValue('_captcha'));
-
-check('Kontaktformular: kein Demo-Hinweis mehr (DE/EN/RU)',
+/* Das Formular wird NICHT mehr per JavaScript abgefangen */
+check('script.js: kein Submit-Handler und kein preventDefault',
+  scriptJs.indexOf('preventDefault') === -1 &&
+  scriptJs.indexOf('addEventListener(\'submit\'') === -1 &&
+  scriptJs.indexOf('contact-form') === -1);
+check('script.js: keine Formular-Meldungen mehr',
+  !/MESSAGES|keine Daten versendet|no data has been sent|setStatus/.test(scriptJs));
+check('index.html + script.js: kein Demo-Hinweis mehr',
   !/Demo-Formular|Demo form|Демо-форма/i.test(rootHtml + scriptJs));
-
-check('script.js: Absenden wird nicht mehr pauschal verhindert (nur bei Fehlern)',
-  (scriptJs.match(/event\.preventDefault\(\)/g) || []).length === 2 &&
-  scriptJs.indexOf('setStatus(msg.sending') !== -1,
-  (scriptJs.match(/event\.preventDefault\(\)/g) || []).length + ' preventDefault-Aufrufe, sending-Text: ' +
-  (scriptJs.indexOf('setStatus(msg.sending') !== -1 ? 'ja' : 'nein'));
-check('script.js: kein Demo-Erfolgstext mehr',
-  !/msg\.ok|keine Daten versendet|no data has been sent/.test(scriptJs));
 
 /* ------------------------------------------------------------ Danke-Seite */
 

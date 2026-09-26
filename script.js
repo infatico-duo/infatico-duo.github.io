@@ -5,6 +5,10 @@
      data-de / data-en / data-ru                          -> Textinhalt
      data-de-placeholder / data-en-placeholder / ...      -> Formular-Platzhalter
    Standardsprache: Deutsch.
+
+   Das Kontaktformular wird bewusst NICHT per JavaScript abgefangen: Es sendet
+   nativ an den Cloudflare Worker (siehe action-Attribut), der die Anfrage
+   weiterleitet und mit 303 auf danke.html antwortet.
    ========================================================================== */
 (function () {
   'use strict';
@@ -23,24 +27,6 @@
     de: { open: 'Menü öffnen',    close: 'Menü schließen',    nav: 'Hauptnavigation' },
     en: { open: 'Open menu',      close: 'Close menu',        nav: 'Main navigation' },
     ru: { open: 'Открыть меню',   close: 'Закрыть меню',      nav: 'Главная навигация' }
-  };
-
-  var MESSAGES = {
-    de: {
-      empty:   'Bitte alle Felder ausfüllen.',
-      badMail: 'Bitte eine gültige E-Mail-Adresse angeben.',
-      sending: 'Anfrage wird gesendet …'
-    },
-    en: {
-      empty:   'Please fill in all fields.',
-      badMail: 'Please enter a valid email address.',
-      sending: 'Sending your request …'
-    },
-    ru: {
-      empty:   'Пожалуйста, заполните все поля.',
-      badMail: 'Пожалуйста, укажите корректный email.',
-      sending: 'Отправляем заявку …'
-    }
   };
 
   var html       = document.documentElement;
@@ -165,63 +151,9 @@
   }, { passive: true });
 
   /* --------------------------------------------------------------- Formular */
-
-  var form   = document.getElementById('contact-form');
-  var status = document.getElementById('form-status');
-
-  function setStatus(text, kind) {
-    if (!status) { return; }
-    status.textContent = text || '';
-    status.classList.remove('is-ok', 'is-error');
-    if (kind) { status.classList.add(kind); }
-  }
-
-  function clearErrors() {
-    Array.prototype.forEach.call(document.querySelectorAll('.field.has-error'), function (field) {
-      field.classList.remove('has-error');
-    });
-  }
-
-  if (form) {
-    /* Die Prüfung läuft vor dem Absenden. Ist alles in Ordnung, wird das
-       Absenden NICHT verhindert – die Daten gehen dann direkt an den
-       FormSubmit-Endpunkt aus dem action-Attribut des Formulars. */
-    form.addEventListener('submit', function (event) {
-      clearErrors();
-
-      var msg = MESSAGES[currentLang()] || MESSAGES[DEFAULT_LANG];
-
-      var nameField = document.getElementById('cf-name');
-      var mailField = document.getElementById('cf-email');
-      var textField = document.getElementById('cf-message');
-
-      var empty = [nameField, mailField, textField].filter(function (el) {
-        return el && el.value.trim() === '';
-      });
-
-      if (empty.length) {
-        event.preventDefault();
-        empty.forEach(function (el) {
-          if (el.parentElement) { el.parentElement.classList.add('has-error'); }
-        });
-        setStatus(msg.empty, 'is-error');
-        if (empty[0]) { empty[0].focus(); }
-        return;
-      }
-
-      var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mailField.value.trim());
-      if (!mailOk) {
-        event.preventDefault();
-        if (mailField.parentElement) { mailField.parentElement.classList.add('has-error'); }
-        setStatus(msg.badMail, 'is-error');
-        mailField.focus();
-        return;
-      }
-
-      // Gültig: Absenden zulassen, kurze Rückmeldung anzeigen
-      setStatus(msg.sending, 'is-ok');
-    });
-  }
+  /* Das Kontaktformular wird nicht mehr per JavaScript verarbeitet.
+     Es sendet nativ an den Cloudflare Worker; die Weiterleitung auf
+     danke.html übernimmt der Worker mit einem 303-Redirect. */
 
   /* ------------------------------------------------------------------- Jahr */
 

@@ -29,21 +29,21 @@ Alles ist statisch: kein Server, kein Build, keine Datenbank nötig.
 
 | Was | Datei + Zeile | Suchbegriff | Wie ersetzen |
 |---|---|---|---|
-| Hero-Foto (großes Hintergrundbild) | `index.html` Zeile **60** | `images/hero.svg` | Datei in `images/` legen, `src` ändern |
-| Foto des Duos | `index.html` Zeile **104** | `images/duo.svg` | dito |
-| Porträt Nataliya Salavei | `index.html` Zeile **112** | `images/portrait-1.svg` | dito |
-| Porträt Vadim Bektemirov | `index.html` Zeile **123** | `images/portrait-2.svg` | dito |
-| Einleitung „Über uns" (2 Absätze) | `index.html` Zeilen **95**, **98** | `about-intro` | Text in allen drei Sprachen (`data-de`/`data-en`/`data-ru`) |
-| Funktionsbezeichnung unter dem Namen | `index.html` Zeilen **114**, **125** | `bio-role` | z. B. „Violine · Bielefelder Philharmoniker" — DE/EN/RU |
-| Biografien (je 3 Absätze) | `index.html` Zeilen **116–118**, **127–129** | `class="bio-text"` | Absätze einzeln, jeder mit `data-de`/`data-en`/`data-ru` |
-| Konzerttermine | `index.html` Zeilen **252**, **258**, **264** | `TT.MM.JJJJ` | Datum/Ort/Stadt in allen drei Sprachen |
-| Audio 1–3 | `index.html` Zeilen **158**, **170**, **182** | `AUDIO-PLATZHALTER` | `<source>` einfügen (Abschnitt 3) |
-| Titelnamen der Tracks | `index.html` Zeilen **154**, **166**, **178** | `Titel 1 – Platzhalter` | in DE/EN/RU |
-| YouTube-Video 1 | `index.html` Zeile **205** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
-| YouTube-Video 2 | `index.html` Zeile **218** | `video-frame` (2. Treffer) | dito |
-| E-Mail-Adresse | `index.html` Zeile **291** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
-| Telefonnummer | `index.html` Zeile **295** | `tel:` (Booking-Nummer) | `tel:`-Link + Text; die Nummer steht zentral in `tools/config.js` (`BOOKING_PHONE`) und im öffentlichen vCard |
-| Kontaktformular | `index.html` Zeile **304** | `<form class="contact-form"` | `action` ergänzen (Abschnitt 6) |
+| Hero-Foto (großes Hintergrundbild) | `index.html` Zeile **62** | `images/hero.svg` | Datei in `images/` legen, `src` ändern |
+| Foto des Duos | `index.html` Zeile **106** | `images/duo.svg` | dito |
+| Porträt Nataliya Salavei | `index.html` Zeile **114** | `images/portrait-1.svg` | dito |
+| Porträt Vadim Bektemirov | `index.html` Zeile **125** | `images/portrait-2.svg` | dito |
+| Einleitung „Über uns" (2 Absätze) | `index.html` Zeilen **97**, **100** | `about-intro` | Text in allen drei Sprachen (`data-de`/`data-en`/`data-ru`) |
+| Funktionsbezeichnung unter dem Namen | `index.html` Zeilen **116**, **127** | `bio-role` | z. B. „Violine · Bielefelder Philharmoniker" — DE/EN/RU |
+| Biografien (je 3 Absätze) | `index.html` Zeilen **118–120**, **129–131** | `class="bio-text"` | Absätze einzeln, jeder mit `data-de`/`data-en`/`data-ru` |
+| Konzerttermine | `index.html` Zeilen **254**, **260**, **266** | `TT.MM.JJJJ` | Datum/Ort/Stadt in allen drei Sprachen |
+| Audio 1–3 | `index.html` Zeilen **160**, **172**, **184** | `AUDIO-PLATZHALTER` | `<source>` einfügen (Abschnitt 3) |
+| Titelnamen der Tracks | `index.html` Zeilen **156**, **168**, **180** | `Titel 1 – Platzhalter` | in DE/EN/RU |
+| YouTube-Video 1 | `index.html` Zeile **207** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
+| YouTube-Video 2 | `index.html` Zeile **220** | `video-frame` (2. Treffer) | dito |
+| E-Mail-Adresse | `index.html` Zeile **293** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
+| Telefonnummer | `index.html` Zeile **297** | `tel:` (Booking-Nummer) | `tel:`-Link + Text; die Nummer steht zentral in `tools/config.js` (`BOOKING_PHONE`) und im öffentlichen vCard |
+| Kontaktformular | `index.html` Zeile **306** | `<form class="contact-form"` | Ziel steht im `action`-Attribut (Cloudflare Worker, Abschnitt 6) |
 | Impressum-Link im Footer | `index.html` Zeile **352** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
 
 **Grundregel für alle Texte:** Jedes Element hat drei Attribute —
@@ -124,7 +124,7 @@ bei YouTube/SoundCloud hosten und verlinken.
 
 ## 4. YouTube-Videos einbetten
 
-In `index.html` (Zeilen **205** und **218**) steht jeweils ein Platzhalter-Block.
+In `index.html` (Zeilen **207** und **220**) steht jeweils ein Platzhalter-Block.
 Diesen komplett ersetzen — die Videokennung aus der YouTube-URL übernehmen
 (`youtube.com/watch?v=**VIDEO_ID**`):
 
@@ -159,7 +159,7 @@ das ist datenschutzfreundlicher und in Deutschland empfehlenswert.
 
 ## 5. E-Mail und Telefon
 
-Zeilen **291** und **295** in `index.html`:
+Zeilen **293** und **297** in `index.html`:
 
 ```html
 <dd><a href="mailto:infatico.duo@gmail.com">infatico.duo@gmail.com</a></dd>
@@ -191,13 +191,109 @@ Regeln:
 
 ---
 
-## 6. Kontaktformular (FormSubmit — bereits eingerichtet)
+## 6. Kontaktformular (Cloudflare Worker + Resend)
 
-Das Formular ist **aktiv** und sendet echte Anfragen an
-`infatico.duo@gmail.com`. Der Versand läuft über den Dienst
-[FormSubmit](https://formsubmit.co) — kostenlos, ohne Konto.
+Das Formular sendet **nativ** — ohne JavaScript-Eingriff — per POST an einen
+Cloudflare Worker. Der Worker prüft den Bot-Schutz, verschickt zwei Mails über
+Resend und leitet auf `danke.html` weiter.
 
-Zeile **304** in `index.html`:
+| Baustein | Wert |
+|---|---|
+| Formular-Ziel (`action`) | `https://infatico-form-handler.infatico-duo.workers.dev` |
+| Turnstile Sitekey (öffentlich) | `0x4AAAAAAFDs1nZawZnkWJSD` |
+| Sende-Domain (Resend, verifiziert) | `send.infatico-duo.de` |
+| Absender | `Duo Infatico <kontakt@send.infatico-duo.de>` |
+| Empfänger | `infatico.duo@gmail.com` |
+| Danke-Seite | `https://infatico-duo.de/danke.html` |
+
+Zeile **306** in `index.html`:
+
+```html
+<form class="contact-form" id="contact-form"
+      action="https://infatico-form-handler.infatico-duo.workers.dev" method="POST">
+  <!-- sichtbare Felder: name, email, message -->
+  <!-- Cloudflare Turnstile — sitekey öffentlich -->
+  <div class="cf-turnstile" data-sitekey="0x4AAAAAAFDs1nZawZnkWJSD" data-theme="light"></div>
+```
+
+Der Turnstile-Aufruf steht im `<head>`:
+
+```html
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+```
+
+### Ablauf beim Absenden
+
+1. Der Browser prüft die Pflichtfelder selbst (`required`, `type="email"`) —
+   deshalb **kein** `novalidate` und **kein** JavaScript-Handler mehr.
+2. Turnstile legt ein Token in das Feld `cf-turnstile-response`.
+3. Der Worker prüft das Token bei Cloudflare (`siteverify`).
+4. Der Worker verschickt über Resend zwei Mails (Benachrichtigung an das Duo,
+   Bestätigung an den Absender) und antwortet mit `303` auf `danke.html`.
+
+Antworten des Workers:
+
+| Code | Bedeutung |
+|---|---|
+| `405` | alles außer POST (z. B. ein normaler Seitenaufruf) |
+| `400` | Pflichtfeld fehlt, Feld zu lang oder E-Mail ungültig |
+| `401` | Turnstile-Token ungültig |
+| `500` | Resend hat abgelehnt |
+| `303` | Erfolg — Weiterleitung auf `danke.html` |
+
+### Worker
+
+| Eigenschaft | Wert |
+|---|---|
+| Name | `infatico-form-handler` |
+| URL | `https://infatico-form-handler.infatico-duo.workers.dev` |
+| Cloudflare-Konto | `4ccd1077dc0b9102c1a596de543dfeb6` |
+| Modul | `worker.mjs` (ES-Modul, `handlers: ["fetch"]`) |
+| Bindings | `RESEND_API_KEY`, `TURNSTILE_SECRET` (beide `secret_text`) |
+
+Optionale Variablen — ohne sie greifen die Standardwerte:
+
+| Variable | Standard |
+|---|---|
+| `EMAIL_FROM` | `Duo Infatico <kontakt@send.infatico-duo.de>` |
+| `EMAIL_TO` | `infatico.duo@gmail.com` |
+
+Zum Ändern der Zieladresse genügt die Variable `EMAIL_TO` im Worker; das
+Formular in `index.html` bleibt unverändert.
+
+### Secrets
+
+Alle Zugangsdaten liegen **außerhalb** des Repositories:
+
+```
+C:\Users\bladw\.secrets\duo-infatico.env
+```
+
+Enthalten: `CLOUDFLARE_ACCOUNT_ID`, `TURNSTILE_WIDGET_ID`,
+`TURNSTILE_SITEKEY`, `TURNSTILE_SECRET`, `WORKER_URL`.
+Die Datei ist nur für den eigenen Benutzer lesbar (Vererbung entfernt).
+
+Die beiden Worker-Geheimnisse liegen zusätzlich als Cloudflare-Bindings.
+Sie dürfen **niemals** im Code, in `index.html` oder im Repository stehen —
+der Sitekey dagegen ist öffentlich und gehört in die Seite.
+
+### Danke-Seite
+
+`danke.html` ist dreisprachig, trägt `noindex` und liest die zuletzt gewählte
+Sprache aus dem localStorage. Der Worker leitet mit `303` dorthin weiter.
+
+### Wichtig (DSGVO)
+
+Mit dem Formular werden personenbezogene Daten verarbeitet. In der
+**Datenschutzerklärung** (Art. 13 DSGVO) müssen Cloudflare (Turnstile und
+Worker) sowie Resend als Empfänger genannt werden; der Link gehört in den
+Footer — siehe nächster Abschnitt.
+
+### Archiv: frühere FormSubmit-Konfiguration
+
+Bis September 2026 lief der Versand über [FormSubmit](https://formsubmit.co).
+Beim Wechsel auf den Worker wurden **alle** diese Felder aus `index.html`
+entfernt. Sie stehen hier nur noch als Referenz:
 
 ```html
 <form class="contact-form" id="contact-form"
@@ -206,87 +302,22 @@ Zeile **304** in `index.html`:
   <input type="hidden" name="_captcha" value="true">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_next" value="https://infatico-duo.github.io/danke.html">
-  <!-- ab hier die sichtbaren Felder: name, email, message -->
+  <input type="hidden" name="_autoresponse" value="Vielen Dank für Ihre Nachricht an Duo Infatico! …">
+</form>
 ```
 
-### Was die Felder bedeuten
-
-| Feld | Zweck |
+| Feld | Bedeutung |
 |---|---|
-| `action` | Zieladresse für alle Anfragen (hier die öffentliche Gmail-Adresse) |
 | `_subject` | Betreff der eingehenden Mail |
-| `_captcha` | `true` = reCAPTCHA vor dem Absenden (Spamschutz) |
-| `_template` | `table` = übersichtliche Tabelle in der Mail |
-| `_next` | Seite nach dem Absenden: `danke.html` |
-| `_autoresponse` | Automatische Antwort an den Absender (Text siehe unten) |
+| `_captcha` | `true` = reCAPTCHA vor dem Absenden |
+| `_template` | `table` = Tabellen-Layout in der Mail |
+| `_next` | Seite nach dem Absenden |
+| `_autoresponse` | Zweisprachiger Autoresponder-Text (DE + EN in einem Feld) |
+| `_autoresponse_en` | **existiert bei FormSubmit nicht** — wurde wieder entfernt |
+| `_honey` | Honigtopf-Feld (optional, nie eingebaut) |
 
-### Automatische Antwort (_autoresponse)
-
-FormSubmit schickt dem Absender sofort eine Bestätigung, sobald das Feld
-`_autoresponse` gesetzt ist. Zwei Bedingungen nennt der Dienst ausdrücklich:
-das Formular muss ein Feld `name="email"` haben **und** darf das reCAPTCHA
-nicht deaktiviert haben (`_captcha` darf nicht `false` sein). Beides ist hier
-erfüllt.
-
-Der Text ist **zweisprachig** (Deutsch, danach Englisch). Grund: FormSubmit
-kennt **keine** Sprachvarianten — laut Dokumentation gibt es nur
-`_autoresponse`; ein Feld `_autoresponse_en` existiert nicht und wurde
-deshalb wieder entfernt (es hätte nur als unbekanntes Feld im Formular
-gestanden, ohne eine englische Antwort zu erzeugen).
-
-Die Zeilenumbrüche stehen im Attributwert als `&#10;`. Der Browser löst sie
-zu echten Zeilenumbrüchen auf, sodass die Mail korrekt gegliedert ankommt:
-
-```html
-<input type="hidden" name="_autoresponse" value="… melden.&#10;&#10;Thank you … possible.&#10;&#10;Herzliche Grüße / Best regards,&#10;Nataliya Salavei &amp; Vadim Bektemirov">
-```
-
-Geändert wird der Text in `index.html` in der Zeile mit `name="_autoresponse"`.
-`tools/verify-app.js` prüft, dass der Wert deutsch **und** englisch enthält
-und dass `_autoresponse_en` nicht mehr vorkommt.
-
-`script.js` prüft die Eingaben weiterhin **vor** dem Absenden (leere Felder,
-ungültige E-Mail). Nur bei einem Fehler wird das Absenden verhindert
-(`event.preventDefault()`) — sonst gehen die Daten direkt an FormSubmit.
-
-### Einmalige Aktivierung
-
-Nach der ersten Übermittlung schickt FormSubmit eine **Bestätigungsmail** an
-`infatico.duo@gmail.com`. Erst nach dem Klick auf den Link darin werden
-Anfragen zugestellt. Solange die Aktivierung fehlt, zeigt das Formular nach
-dem Absenden nur den FormSubmit-Hinweis „This form needs Activation“.
-
-### Adresse ändern oder Dienst wechseln
-
-1. Neuen Wert im `action`-Attribut eintragen (Zeile **304**).
-2. `danke.html` bleibt unverändert.
-3. Einmal testweise abschicken und die Adresse bestätigen.
-
-Alternativ lässt sich jeder andere Dienst verwenden (z. B. Formspree); dazu
-nur `action` und die versteckten Felder anpassen.
-
-### Danke-Seite
-
-`danke.html` erscheint nach dem Absenden (über `_next`), ist dreisprachig,
-trägt `noindex` und liest die zuletzt gewählte Sprache aus dem localStorage.
-
-### Wichtig
-
-Wer ein Kontaktformular anbietet, verarbeitet personenbezogene Daten und
-braucht dafür eine **Datenschutzerklärung** (Art. 13 DSGVO) sowie einen Link
-darauf im Footer — siehe nächster Abschnitt. Seit der Anbindung an FormSubmit
-muss dort auch dieser Dienst als Empfänger genannt werden.
-
-### Spamschutz
-
-`_captcha=true` schaltet das reCAPTCHA von FormSubmit ein. Zusätzlich kann ein
-unsichtbares Honigtopf-Feld ergänzt werden:
-
-```html
-<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-```
-
-Bots füllen es aus, Menschen nicht – FormSubmit verwirft solche Anfragen.
+Ein Wechsel zu einem anderen Dienst (z. B. Formspree) wäre weiterhin möglich:
+dazu nur `action` und die versteckten Felder anpassen.
 
 ---
 
@@ -398,12 +429,13 @@ Jeder übersetzbare Text hat drei Attribute:
 - [ ] YouTube-Videos eingebettet, `VIDEO_ID` ersetzt
 - [ ] Konzerttermine eingetragen (oder Abschnitt entfernt, falls keine anstehen)
 - [ ] E-Mail und Telefon real, `mailto:` und `tel:` geprüft (Testanruf/-mail)
-- [x] Formular mit FormSubmit verbunden (`action` + versteckte Felder)
-- [ ] **FormSubmit aktiviert** – Bestätigungslink aus der Mail an
-      `infatico.duo@gmail.com` angeklickt und Testanfrage erhalten
-- [ ] Danke-Seite `danke.html` online erreichbar (`_next` zeigt darauf)
+- [x] Formular mit dem Cloudflare Worker verbunden (`action` + Turnstile-Widget)
+- [x] Turnstile-Sitekey im Formular, Skript im `<head>`
+- [ ] **Testanfrage über die Live-Seite** – Benachrichtigung an
+      `infatico.duo@gmail.com` und Autoantwort an den Absender erhalten
+- [ ] Danke-Seite `danke.html` online erreichbar (der Worker leitet mit `303` dorthin)
 - [ ] Impressum und Datenschutzerklärung verlinkt und vollständig
-      (darin FormSubmit als Empfänger der Formulardaten nennen)
+      (darin Cloudflare und Resend als Empfänger der Formulardaten nennen)
 - [ ] Auf dem Handy geprüft (Menü, Formular, Lesbarkeit)
 - [ ] Alle drei Sprachen durchgeklickt (DE / EN / RU)
 - [ ] Seite im Browser mit Strg+F5 neu geladen, danach online geprüft
