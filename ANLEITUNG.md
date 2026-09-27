@@ -212,8 +212,8 @@ Zeile **306** in `index.html`:
 <form class="contact-form" id="contact-form"
       action="https://infatico-form-handler.infatico-duo.workers.dev" method="POST">
   <!-- sichtbare Felder: name, email, message -->
-  <!-- Cloudflare Turnstile — sitekey öffentlich -->
-  <div class="cf-turnstile" data-sitekey="0x4AAAAAAFDs1nZawZnkWJSD" data-theme="light"></div>
+  <!-- Cloudflare Turnstile — sitekey öffentlich, Modus "invisible" (kein sichtbares Widget) -->
+  <div class="cf-turnstile" data-sitekey="0x4AAAAAAFDs1nZawZnkWJSD" data-size="invisible"></div>
 ```
 
 Der Turnstile-Aufruf steht im `<head>`:
@@ -221,6 +221,31 @@ Der Turnstile-Aufruf steht im `<head>`:
 ```html
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 ```
+
+### Modus des Widgets (invisible)
+
+Der Modus wird **serverseitig am Widget** eingestellt, nicht im HTML — `data-size="invisible"`
+ist nur die passende Client-Angabe dazu. Umschalten über die Cloudflare-API; der Pfad
+enthält den **sitekey** (in `tools`/`.secrets` ist `TURNSTILE_WIDGET_ID` leer und wird nicht gebraucht):
+
+```bash
+curl -X PUT "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/challenges/widgets/0x4AAAAAAFDs1nZawZnkWJSD" \
+  -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
+  --json '{"name":"infatico-duo.de","domains":["infatico-duo.de","www.infatico-duo.de"],"mode":"invisible","clearance_level":"no_clearance"}'
+```
+
+- `PATCH` mit nur `{"mode":"invisible"}` wird von der API **nicht** unterstützt
+  (`405 Method not allowed for this authentication scheme`) — es muss `PUT` mit der
+  vollständigen Konfiguration sein, sonst überschreibt man `domains` und `name`.
+- Rollback auf das sichtbare Widget: derselbe Aufruf mit `"mode":"managed"`.
+- Prüfen: `GET .../challenges/widgets/0x4AAAAAAFDs1nZawZnkWJSD` → `"mode": "invisible"`.
+- Der Moduswechsel lässt sitekey und secret unverändert (der Worker bleibt unberührt).
+- Bei `mode=invisible` erscheint kein Widget; das Token entsteht trotzdem automatisch beim
+  Laden der Seite (Standard-`execution` ist `render`), ein eigener `turnstile.execute()`-Aufruf
+  ist **nicht** nötig.
+- Cloudflare verlangt als Bedingung für den invisible-Modus einen Verweis auf das
+  [Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/) in der
+  eigenen Datenschutzerklärung.
 
 ### Ablauf beim Absenden
 

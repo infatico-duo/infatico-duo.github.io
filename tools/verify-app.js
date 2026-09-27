@@ -417,15 +417,17 @@ check('Kontaktformular: kein novalidate (native Browser-Prüfung aktiv)',
   !/\snovalidate/.test(formTag));
 
 /* Cloudflare Turnstile */
-check('Turnstile-Widget im Formular (sitekey, helles Theme)',
-  rootHtml.indexOf('<div class="cf-turnstile" data-sitekey="' + TURNSTILE_SITEKEY + '" data-theme="light">') !== -1);
+check('Turnstile-Widget im Formular (sitekey, unsichtbarer Modus)',
+  rootHtml.indexOf('<div class="cf-turnstile" data-sitekey="' + TURNSTILE_SITEKEY + '" data-size="invisible">') !== -1);
+check('Turnstile-Widget ohne Theme-Attribut (invisible-Modus ignoriert Themes)',
+  !/<div class="cf-turnstile"[^>]*data-theme=/.test(rootHtml));
 check('Turnstile-Widget steht vor dem Absende-Knopf',
   rootHtml.indexOf('cf-turnstile') < rootHtml.indexOf('id="contact-form"') + 3000 &&
   rootHtml.indexOf('cf-turnstile') < rootHtml.indexOf('data-de="Anfrage senden"'));
 check('Turnstile-Skript im <head>',
   /<script src="https:\/\/challenges\.cloudflare\.com\/turnstile\/v0\/api\.js"[^>]*><\/script>/.test(rootHtml) &&
   rootHtml.indexOf('challenges.cloudflare.com/turnstile') < rootHtml.indexOf('</head>'));
-check('Turnstile-Kommentar vorhanden', /<!-- Cloudflare Turnstile — sitekey öffentlich -->/.test(rootHtml));
+check('Turnstile-Kommentar vorhanden', /<!-- Cloudflare Turnstile — sitekey öffentlich/.test(rootHtml));
 
 /* Das Formular wird NICHT mehr per JavaScript abgefangen */
 check('script.js: kein Submit-Handler und kein preventDefault',
