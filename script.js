@@ -17,6 +17,16 @@
   var DEFAULT_LANG = 'de';
   var LANGS        = ['de', 'en', 'ru'];
 
+  /* Einmalige Bereinigung: Der Sprachschlüssel lag früher im localStorage und
+     wird dort nicht mehr verwendet (Umstellung auf sessionStorage). Die
+     Profil-Schlüssel der Visitenkarte (duo-infatico-vadim / -nataliya) und alle
+     übrigen Einträge bleiben unberührt. */
+  try {
+    if (localStorage.getItem(STORAGE_KEY) !== null) {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  } catch (e) { /* ignore */ }
+
   var TITLES = {
     de: 'Duo Infatico – Violine & Gitarre | Bielefeld',
     en: 'Duo Infatico – Violin & Guitar | Bielefeld',
@@ -43,7 +53,7 @@
 
   /* ---------------------------------------------------------------- Sprache */
 
-  function applyLanguage(lang) {
+  function applyLanguage(lang, save) {
     if (!isSupported(lang)) { lang = DEFAULT_LANG; }
 
     // Alle Texte: data-de / data-en / data-ru (Rückfall auf Deutsch)
@@ -79,12 +89,16 @@
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    /* Erst nach ausdrücklicher Auswahl speichern (§ 25 Abs. 2 Nr. 2 TDDDG):
+       beim automatischen Anwenden der Startsprache bleibt der Speicher unberührt. */
+    if (save) {
+      try { sessionStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    }
   }
 
   langButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      applyLanguage(btn.getAttribute('data-lang'));
+      applyLanguage(btn.getAttribute('data-lang'), true);
     });
   });
 
@@ -98,7 +112,7 @@
 
     // 2) Zuletzt gewählte Sprache
     var stored = null;
-    try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+    try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
     if (isSupported(stored)) { return stored; }
 
     // 3) Standard ist Deutsch (Hauptsprache der Seite)
@@ -162,6 +176,6 @@
 
   /* ------------------------------------------------------------------ Start */
 
-  applyLanguage(initialLanguage());
+  applyLanguage(initialLanguage(), false);
   onScroll();
 })();

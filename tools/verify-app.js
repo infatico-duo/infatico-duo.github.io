@@ -31,11 +31,13 @@ const FAKE_PHONE = '+491234567890';          // ausdrücklich erlaubte Testnumme
 const BOOKING_PHONE = config.BOOKING_PHONE;  // freigegebene Nummer des Duos
 const BOOKING_DIGITS = BOOKING_PHONE.replace(/\D/g, '');
 /* Nur in diesen Dateien darf die Booking-Nummer stehen (als vollständige
-   Nummer mit Vorwahl). Hinweis: weiter unten steht in der Tippfehler-Prüfung
+   Nummer mit Vorwahl). Impressum und Datenschutz nennen sie als
+   Kontaktmöglichkeit. Hinweis: weiter unten steht in der Tippfehler-Prüfung
    absichtlich eine reine Ziffernfolge als unabhängiger Sollwert – würde der
    Test sie aus config.js ableiten, könnte er einen Tippfehler dort nicht
    erkennen. */
-const BOOKING_ALLOWED = ['index.html', 'card/duo-infatico.vcf', 'tools/config.js'];
+const BOOKING_ALLOWED = ['index.html', 'card/duo-infatico.vcf', 'tools/config.js',
+  'impressum.html', 'datenschutz.html'];
 
 /* Anzeigeform der Nummer aus der Konfiguration ableiten – so steht die Nummer
    nicht als Literal im Testcode und die Freigabeliste bleibt eng. */
@@ -239,6 +241,8 @@ check('sw.js: Einrichtungs- und Kontaktseite werden vorinstalliert',
   precacheList.indexOf('./setup/') !== -1 && precacheList.indexOf('./contact/') !== -1);
 check('sw.js: Cache-Name versioniert', /CACHE_NAME = 'duo-infatico-card-v\d+'/.test(sw));
 check('sw.js: räumt alte Caches auf', sw.indexOf('caches.delete') !== -1);
+check('sw.js: neue Fassung übernimmt sofort (skipWaiting + clients.claim)',
+  /self\.skipWaiting\(\)/.test(sw) && /self\.clients\.claim\(\)/.test(sw));
 check('sw.js: nur same-origin', sw.indexOf('url.origin !== self.location.origin') !== -1);
 check('sw.js: Navigation wird pro Adresse gespeichert (nicht alles auf index.html)',
   /cache\.put\(key/.test(sw) && /caches\.match\(key\)/.test(sw));
@@ -434,9 +438,9 @@ check('Turnstile-Kommentar vorhanden', /<!-- Cloudflare Turnstile — sitekey ö
    Die interne Gmail-Adresse ist die Worker-Variable EMAIL_TO und darf in
    keiner öffentlichen Datei auftauchen. */
 const INTERNAL_EMAIL = 'infatico.duo@gmail.com';
-const PUBLIC_FILES = ['index.html', 'danke.html', 'script.js', 'style.css',
-  'card/index.html', 'card/card.js', 'card/contact-data.js', 'card/contact/contact.js',
-  'card/setup/setup.js', 'card/duo-infatico.vcf'];
+const PUBLIC_FILES = ['index.html', 'danke.html', 'impressum.html', 'datenschutz.html',
+  'script.js', 'style.css', 'card/index.html', 'card/card.js', 'card/contact-data.js',
+  'card/contact/contact.js', 'card/setup/setup.js', 'card/duo-infatico.vcf'];
 
 check('index.html: öffentliche E-Mail als mailto-Link und als sichtbarer Text',
   rootHtml.indexOf('mailto:' + config.EMAIL) !== -1 &&
@@ -452,6 +456,99 @@ const internalEmailHits = PUBLIC_FILES.filter(
   (rel) => readText(path.join(ROOT, rel)).indexOf(INTERNAL_EMAIL) !== -1);
 check('Öffentliche Dateien enthalten nicht die interne Gmail-Adresse',
   internalEmailHits.length === 0, internalEmailHits.join(', ') || 'keine Fundstelle');
+
+/* -------------------------------- Rechtliche Seiten (Impressum/Datenschutz)
+   Beide Seiten werden wie die Website geprüft: Kodierung, lokale Verweise und
+   die Verlinkung aus beiden Fußzeilen. */
+const LEGAL_PAGES = ['impressum.html', 'datenschutz.html'];
+for (const page of LEGAL_PAGES) {
+  const abs = path.join(ROOT, page);
+  if (!fs.existsSync(abs)) { check(page + ': vorhanden', false, 'Datei fehlt'); continue; }
+  const buf = read(abs);
+  const bom = buf[0] === 0xEF && buf[1] === 0xBB && buf[2] === 0xBF;
+  const text = buf.toString('utf8');
+  const valid = Buffer.from(text, 'utf8').equals(buf);
+  const bad = BAD.reduce((n, p) => n + (text.split(p).length - 1), 0);
+  check(page + ': UTF-8 ohne BOM, kein Mojibake', !bom && valid && bad === 0,
+    (bom ? 'BOM; ' : '') + (valid ? '' : 'ungültiges UTF-8; ') + (bad ? bad + ' Mojibake' : ''));
+  check(page + ': <meta charset="UTF-8"> ist der erste Eintrag im <head>',
+    /<head>\s*<meta charset="UTF-8">/i.test(text));
+  const missing = (text.match(/(?:src|href)="([^"]+)"/g) || [])
+    .map((m) => m.replace(/^(?:src|href)="/, '').replace(/"$/, ''))
+    .filter((u) => !/^(https?:|mailto:|tel:|#)/.test(u))
+    .map((u) => u.split('?')[0].split('#')[0])
+    .filter((u) => u !== '' && u.indexOf('[') === -1 && !fs.existsSync(path.join(ROOT, u)));
+  check(page + ': alle lokalen Verweise existieren', missing.length === 0, missing.join(', ') || 'ok');
+  check(page + ': verlinkt Impressum und Datenschutz',
+    text.indexOf('href="impressum.html"') !== -1 && text.indexOf('href="datenschutz.html"') !== -1);
+}
+/* Die Rechtstexte müssen von jeder öffentlichen Seite in einem Klick
+   erreichbar sein. Dabei wird der relative Pfad gegen das Verzeichnis der
+   jeweiligen Seite aufgelöst und geprüft, ob die Zieldatei existiert – so
+   fällt zum Beispiel ein falsches "../" auf den Unterseiten auf. */
+const LEGAL_LINK_PAGES = ['index.html', 'card/index.html', 'danke.html',
+  'card/setup/index.html', 'card/contact/index.html'];
+for (const page of LEGAL_LINK_PAGES) {
+  const abs = path.join(ROOT, page);
+  const text = readText(abs);
+  const targets = [...new Set(
+    [...text.matchAll(/href="([^"]*(?:impressum|datenschutz)\.html)"/g)].map((m) => m[1])
+  )].map((h) => path.resolve(path.dirname(abs), h));
+  const missingLinks = ['impressum.html', 'datenschutz.html'].filter(
+    (f) => !targets.some((t) => path.basename(t) === f));
+  const missingTargets = targets.filter((t) => !fs.existsSync(t));
+  check(page + ': Impressum- und Datenschutz-Link vorhanden und korrekt aufgelöst',
+    missingLinks.length === 0 && missingTargets.length === 0,
+    missingLinks.length || missingTargets.length
+      ? 'fehlt/fehlerhaft: ' + missingLinks.concat(missingTargets.map((t) => path.relative(ROOT, t))).join(', ')
+      : targets.map((t) => path.relative(ROOT, t)).join(', '));
+}
+
+/* Veröffentlichungssperre: Solange in den Rechtstexten Platzhalter stehen, darf
+   die Seite nicht online gehen. Diese Prüfung schlägt deshalb ABSICHTLICH fehl,
+   bis die echten Angaben (Anschrift, ggf. Telefon) eingetragen sind. */
+const PLACEHOLDER_PATTERNS = ['[Straße', '[PLZ', '[TELEFON', '[ADRESSE', 'XXX'];
+const placeholderHits = [];
+for (const page of LEGAL_PAGES) {
+  const abs = path.join(ROOT, page);
+  if (!fs.existsSync(abs)) { continue; }
+  const text = readText(abs);
+  for (const pattern of PLACEHOLDER_PATTERNS) {
+    const n = text.split(pattern).length - 1;
+    if (n) { placeholderHits.push(page + ': ' + pattern + ' (' + n + 'x)'); }
+  }
+}
+check('Rechtliche Seiten: keine Platzhalter mehr (Veröffentlichungssperre)',
+  placeholderHits.length === 0, placeholderHits.join(', ') || 'keine Platzhalter');
+
+/* ------------------------------------------- Sprachauswahl und sessionStorage
+   Der Schlüssel duo-infatico-lang liegt im sessionStorage (nur für die Dauer
+   des Besuchs) und wird erst nach ausdrücklicher Auswahl geschrieben
+   (§ 25 Abs. 2 Nr. 2 TDDDG) – nicht beim automatischen Anwenden der
+   Startsprache. */
+const LANG_STORAGE_SOURCES = [
+  ['script.js', readText(path.join(ROOT, 'script.js'))],
+  ['card/i18n.js', readText(path.join(CARD, 'i18n.js'))],
+  ['danke.html', readText(path.join(ROOT, 'danke.html'))],
+];
+for (const [label, code] of LANG_STORAGE_SOURCES) {
+  const calls = (code.match(/sessionStorage\.setItem\(STORAGE_KEY/g) || []).length;
+  const guarded = (code.match(/if\s*\(\s*save\s*\)\s*\{[^}]*sessionStorage\.setItem\(STORAGE_KEY/g) || []).length;
+  const onSelect = /(?:applyLanguage|apply)\([^;]*,\s*true\)/.test(code);
+  const onStart = /(?:applyLanguage|apply)\([^;]*,\s*false\)/.test(code);
+  const lsWrite = /localStorage\.setItem\(STORAGE_KEY/.test(code);
+  check(label + ': Sprache nur im sessionStorage und nur nach ausdrücklicher Auswahl',
+    calls === 1 && guarded === 1 && onSelect && onStart && !lsWrite,
+    'sessionStorage.setItem=' + calls + ', mit if(save)=' + guarded +
+    ', Klick=true: ' + onSelect + ', Start=false: ' + onStart + ', localStorage.setItem: ' + lsWrite);
+
+  /* Einmalige Bereinigung des alten Schlüssels; Profil-Keys bleiben unberührt. */
+  const legacyCleanup = /localStorage\.removeItem\(STORAGE_KEY\)/.test(code);
+  const foreignKeys = /localStorage\.(set|remove)Item\(\s*['"](?!duo-infatico-lang)/.test(code);
+  check(label + ': alter Sprachschlüssel in localStorage wird aufgeräumt, Profile bleiben unberührt',
+    legacyCleanup && !foreignKeys,
+    'removeItem(STORAGE_KEY)=' + legacyCleanup + ', fremde Keys=' + foreignKeys);
+}
 
 /* Das Formular wird NICHT mehr per JavaScript abgefangen */
 check('script.js: kein Submit-Handler und kein preventDefault',

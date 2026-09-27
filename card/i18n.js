@@ -9,8 +9,8 @@
      data-de-placeholder / …                          → placeholder
      data-de-aria / …                                 → aria-label
 
-   Standardsprache: Deutsch. Die Wahl wird im localStorage gemerkt
-   (Schlüssel „duo-infatico-lang"), damit sie auf allen Kartenseiten gilt.
+   Standardsprache: Deutsch. Die Wahl wird im sessionStorage gemerkt
+   (Schlüssel „duo-infatico-lang") und gilt nur für die Dauer des Besuchs.
    ========================================================================== */
 (function (root, factory) {
   var api = factory();
@@ -21,6 +21,16 @@
   var LANGS = ['de', 'en', 'ru'];
   var DEFAULT_LANG = 'de';
   var STORAGE_KEY = 'duo-infatico-lang';
+
+  /* Einmalige Bereinigung: Der Sprachschlüssel lag früher im localStorage und
+     wird dort nicht mehr verwendet (Umstellung auf sessionStorage). Die
+     Profil-Schlüssel der Visitenkarte (duo-infatico-vadim / -nataliya) und alle
+     übrigen Einträge bleiben unberührt. */
+  try {
+    if (localStorage.getItem(STORAGE_KEY) !== null) {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  } catch (e) { /* ignore */ }
 
   var TITLES = {
     card: {
@@ -58,12 +68,12 @@
     if (isSupported(fromUrl)) { return fromUrl; }
 
     var stored = null;
-    try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+    try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
     if (isSupported(stored)) { return stored; }
     return DEFAULT_LANG;
   }
 
-  function apply(lang, pageKey) {
+  function apply(lang, pageKey, save) {
     if (!isSupported(lang)) { lang = DEFAULT_LANG; }
     var doc = document;
 
@@ -96,7 +106,11 @@
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    /* Erst nach ausdrücklicher Auswahl speichern (§ 25 Abs. 2 Nr. 2 TDDDG):
+       beim automatischen Anwenden der Startsprache bleibt der Speicher unberührt. */
+    if (save) {
+      try { sessionStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    }
 
     for (var i = 0; i < listeners.length; i++) {
       try { listeners[i](lang); } catch (e) { /* ignore */ }
@@ -110,11 +124,11 @@
 
     Array.prototype.forEach.call(document.querySelectorAll('.lang-btn'), function (btn) {
       btn.addEventListener('click', function () {
-        apply(btn.getAttribute('data-lang'), pageKey);
+        apply(btn.getAttribute('data-lang'), pageKey, true);
       });
     });
 
-    return apply(initialLanguage(), pageKey);
+    return apply(initialLanguage(), pageKey, false);
   }
 
   return {

@@ -660,6 +660,20 @@ button {
 
 .page-foot { text-align: center; }
 
+/* Fußzeile mit den Rechtstexten auf den Unterseiten */
+.legal-footer {
+  text-align: center;
+  font-size: .8rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.legal-footer a {
+  color: var(--text-soft);
+  border-bottom: 1px solid var(--accent);
+}
+.legal-footer a:hover,
+.legal-footer a:focus-visible { color: var(--accent-ink); }
+
 /* Zusatzblöcke auf der Visitenkarte */
 .block-title {
   font-size: 1.25rem;

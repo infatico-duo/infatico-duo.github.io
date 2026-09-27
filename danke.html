@@ -47,6 +47,20 @@
     font-size: .8rem;
     color: var(--text-muted);
   }
+  .danke-legal {
+    margin-top: .5rem;
+    font-size: .8rem;
+    color: var(--text-muted);
+  }
+  .danke-legal a {
+    border-bottom: 1px solid var(--line);
+    transition: border-color var(--t-fast), color var(--t-fast);
+  }
+  .danke-legal a:hover,
+  .danke-legal a:focus-visible {
+    color: var(--text);
+    border-color: var(--accent);
+  }
 </style>
 </head>
 <body>
@@ -85,6 +99,12 @@
 
   <p class="danke-footer">Duo Infatico · Violine &amp; Gitarre · Bielefeld</p>
 
+  <p class="danke-legal">
+    <a href="impressum.html">Impressum</a>
+    ·
+    <a href="datenschutz.html">Datenschutz</a>
+  </p>
+
 </main>
 
 <script>
@@ -97,6 +117,17 @@
   'use strict';
 
   var STORAGE_KEY = 'duo-infatico-lang';
+
+  /* Einmalige Bereinigung: Der Sprachschlüssel lag früher im localStorage und
+     wird dort nicht mehr verwendet (Umstellung auf sessionStorage). Die
+     Profil-Schlüssel der Visitenkarte (duo-infatico-vadim / -nataliya) und alle
+     übrigen Einträge bleiben unberührt. */
+  try {
+    if (localStorage.getItem(STORAGE_KEY) !== null) {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  } catch (e) { /* ignore */ }
+
   var LANGS = ['de', 'en', 'ru'];
   var DEFAULT_LANG = 'de';
   var TITLES = {
@@ -107,7 +138,7 @@
 
   function isSupported(lang) { return LANGS.indexOf(lang) !== -1; }
 
-  function applyLanguage(lang) {
+  function applyLanguage(lang, save) {
     if (!isSupported(lang)) { lang = DEFAULT_LANG; }
 
     Array.prototype.forEach.call(document.querySelectorAll('[data-de]'), function (el) {
@@ -125,21 +156,25 @@
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    /* Erst nach ausdrücklicher Auswahl speichern (§ 25 Abs. 2 Nr. 2 TDDDG):
+       beim automatischen Anwenden der Startsprache bleibt der Speicher unberührt. */
+    if (save) {
+      try { sessionStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    }
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('.lang-btn'), function (btn) {
     btn.addEventListener('click', function () {
-      applyLanguage(btn.getAttribute('data-lang'));
+      applyLanguage(btn.getAttribute('data-lang'), true);
     });
   });
 
   var fromUrl = null;
   var stored = null;
   try { fromUrl = new URLSearchParams(window.location.search).get('lang'); } catch (e) { /* ignore */ }
-  try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+  try { stored = sessionStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
 
-  applyLanguage(isSupported(fromUrl) ? fromUrl : (isSupported(stored) ? stored : DEFAULT_LANG));
+  applyLanguage(isSupported(fromUrl) ? fromUrl : (isSupported(stored) ? stored : DEFAULT_LANG), false);
 }());
 </script>
 

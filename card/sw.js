@@ -18,7 +18,7 @@
    Wichtig: Bei inhaltlichen Änderungen CACHE_NAME erhöhen (v3, v4 …).
    ========================================================================== */
 
-const CACHE_NAME = 'duo-infatico-card-v3';
+const CACHE_NAME = 'duo-infatico-card-v4';
 const START_URL = './index.html';
 const PRECACHE = [
   './',

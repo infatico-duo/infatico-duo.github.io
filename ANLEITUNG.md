@@ -305,7 +305,8 @@ der Sitekey dagegen ist öffentlich und gehört in die Seite.
 ### Danke-Seite
 
 `danke.html` ist dreisprachig, trägt `noindex` und liest die zuletzt gewählte
-Sprache aus dem localStorage. Der Worker leitet mit `303` dorthin weiter.
+Sprache aus dem sessionStorage (gilt nur für die Dauer des Besuchs). Der Worker
+leitet mit `303` dorthin weiter.
 
 ### Wichtig (DSGVO)
 
@@ -359,10 +360,16 @@ Mai 2024 **§ 5 DDG** (Digitale-Dienste-Gesetz, hat das frühere § 5 TMG abgel�
 | Name und Rechtsform | beide Namen, z. B. „Nataliya Salavei und Vadim Bektemirov, GbR" |
 | Vertretungsberechtigte | bei einer GbR: alle Gesellschafter |
 | **Ladungsfähige Anschrift** | echte Straße + Hausnummer, PLZ, Ort — **kein Postfach** |
-| Kontakt | E-Mail **und** Telefon (E-Mail allein genügt nicht) |
+| Kontakt | E-Mail **und** eine weitere schnelle Kontaktmöglichkeit (nicht zwingend Telefon) |
 | Umsatzsteuer-ID | falls vorhanden: „USt-IdNr. gemäß § 27a UStG: DE…" |
 | Berufsbezogene Angaben | Berufsbezeichnung, zuständige Kammer/Verband, berufsrechtliche Regelungen |
-| Inhaltlich verantwortlich | Name + Anschrift (§ 18 Abs. 2 MStV) |
+| Inhaltlich verantwortlich | Name + Anschrift (§ 18 Abs. 2 MStV) — im vorliegenden Impressum bewusst weggelassen |
+
+> **Zum Kontakt:** § 5 DDG verlangt eine E-Mail-Adresse **und** eine weitere schnelle Kontaktmöglichkeit.
+> Ein Telefon ist eine Möglichkeit, aber nicht die einzige. Für eine Website mit Anfrage- oder
+> Bestellformular ist eine Telefonnummer empfehlenswert — sie senkt das Risiko einer Abmahnung.
+> Das aktuelle `impressum.html` nennt daher nur die E-Mail-Adresse; eine Rufnummer wird ergänzt, sobald eine
+> eigene Nummer vorliegt.
 
 ### Empfohlener Aufbau
 
