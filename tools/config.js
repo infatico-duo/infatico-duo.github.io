@@ -18,7 +18,7 @@ module.exports = {
   SITE_URL: 'https://infatico-duo.github.io/',
 
   // Öffentliche Kontaktadresse (steht so auf der Website)
-  EMAIL: 'infatico.duo@gmail.com',
+  EMAIL: 'kontakt@infatico-duo.de',
 
   // Freigegebene Booking-Nummer des Duos – erscheint im Kontaktbereich der
   // Website und im öffentlichen vCard (card/duo-infatico.vcf).

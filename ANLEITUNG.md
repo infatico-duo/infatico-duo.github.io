@@ -41,7 +41,7 @@ Alles ist statisch: kein Server, kein Build, keine Datenbank nötig.
 | Titelnamen der Tracks | `index.html` Zeilen **156**, **168**, **180** | `Titel 1 – Platzhalter` | in DE/EN/RU |
 | YouTube-Video 1 | `index.html` Zeile **207** | `video-frame` (1. Treffer) | `<iframe>` einsetzen (Abschnitt 4) |
 | YouTube-Video 2 | `index.html` Zeile **220** | `video-frame` (2. Treffer) | dito |
-| E-Mail-Adresse | `index.html` Zeile **293** | `infatico.duo@gmail.com` | `mailto:`-Link + Text |
+| E-Mail-Adresse | `index.html` Zeile **293** | `kontakt@infatico-duo.de` | `mailto:`-Link + Text |
 | Telefonnummer | `index.html` Zeile **297** | `tel:` (Booking-Nummer) | `tel:`-Link + Text; die Nummer steht zentral in `tools/config.js` (`BOOKING_PHONE`) und im öffentlichen vCard |
 | Kontaktformular | `index.html` Zeile **306** | `<form class="contact-form"` | Ziel steht im `action`-Attribut (Cloudflare Worker, Abschnitt 6) |
 | Impressum-Link im Footer | `index.html` Zeile **352** | `footer-links` | Link auf `impressum.html` setzen (Abschnitt 7) |
@@ -162,7 +162,7 @@ das ist datenschutzfreundlicher und in Deutschland empfehlenswert.
 Zeilen **293** und **297** in `index.html`:
 
 ```html
-<dd><a href="mailto:infatico.duo@gmail.com">infatico.duo@gmail.com</a></dd>
+<dd><a href="mailto:kontakt@infatico-duo.de">kontakt@infatico-duo.de</a></dd>
 <dd><a href="tel:+491234567890">+49 123 456 7890</a></dd>
 ```
 

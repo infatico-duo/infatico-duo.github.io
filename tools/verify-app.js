@@ -429,6 +429,30 @@ check('Turnstile-Skript im <head>',
   rootHtml.indexOf('challenges.cloudflare.com/turnstile') < rootHtml.indexOf('</head>'));
 check('Turnstile-Kommentar vorhanden', /<!-- Cloudflare Turnstile — sitekey öffentlich/.test(rootHtml));
 
+/* ------------------------------------------- Öffentliche E-Mail-Adresse
+   Alle öffentlichen Stellen nutzen die Adresse aus tools/config.js (EMAIL).
+   Die interne Gmail-Adresse ist die Worker-Variable EMAIL_TO und darf in
+   keiner öffentlichen Datei auftauchen. */
+const INTERNAL_EMAIL = 'infatico.duo@gmail.com';
+const PUBLIC_FILES = ['index.html', 'danke.html', 'script.js', 'style.css',
+  'card/index.html', 'card/card.js', 'card/contact-data.js', 'card/contact/contact.js',
+  'card/setup/setup.js', 'card/duo-infatico.vcf'];
+
+check('index.html: öffentliche E-Mail als mailto-Link und als sichtbarer Text',
+  rootHtml.indexOf('mailto:' + config.EMAIL) !== -1 &&
+  rootHtml.indexOf('>' + config.EMAIL + '<') !== -1, config.EMAIL);
+check('card/index.html: öffentliche E-Mail als mailto-Link',
+  readText(path.join(CARD, 'index.html')).indexOf('mailto:' + config.EMAIL) !== -1, config.EMAIL);
+check('card/contact-data.js: PUBLIC.email entspricht config.EMAIL',
+  contactData.PUBLIC.email === config.EMAIL, contactData.PUBLIC.email);
+check('vCard aus contact-data.js enthält die öffentliche E-Mail',
+  contactData.buildVCard({ profile: 'vadim', phone: FAKE_PHONE })
+    .indexOf('EMAIL;TYPE=WORK,INTERNET:' + config.EMAIL) !== -1);
+const internalEmailHits = PUBLIC_FILES.filter(
+  (rel) => readText(path.join(ROOT, rel)).indexOf(INTERNAL_EMAIL) !== -1);
+check('Öffentliche Dateien enthalten nicht die interne Gmail-Adresse',
+  internalEmailHits.length === 0, internalEmailHits.join(', ') || 'keine Fundstelle');
+
 /* Das Formular wird NICHT mehr per JavaScript abgefangen */
 check('script.js: kein Submit-Handler und kein preventDefault',
   scriptJs.indexOf('preventDefault') === -1 &&

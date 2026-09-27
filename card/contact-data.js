@@ -42,7 +42,7 @@
   var PROFILE_ORDER = ['vadim', 'nataliya'];
 
   var PUBLIC = {
-    email: 'infatico.duo@gmail.com',   // steht so auf der Website
+    email: 'kontakt@infatico-duo.de',   // steht so auf der Website
     city: 'Bielefeld',
     region: 'Nordrhein-Westfalen',
     country: 'Deutschland',
