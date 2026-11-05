@@ -830,3 +830,8 @@ button, input, textarea {
   .hero-media { display: none; }
   .hero-content { color: var(--text); padding-block: 2rem; }
 }
+
+/* Карточка видео-ссылки на YouTube (без встраивания) */
+a.video-frame { text-decoration: none; }
+a.video-frame:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a.video-frame .video-label { text-decoration: none; }
