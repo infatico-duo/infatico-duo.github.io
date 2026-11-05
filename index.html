@@ -205,34 +205,22 @@
         <h2 class="section-title" data-de="Videos" data-en="Videos" data-ru="Видео">Videos</h2>
       </header>
 
-      <div class="video-grid">
-        <figure class="video-item">
-          <button class="video-frame video-frame--short video-poster" type="button"
-                  data-video-id="3-nuhrhDwJM"
-                  aria-label="Video abspielen: Astor Piazzolla – Night-Club 1960, Duo Infatico">
-            <span class="video-poster-kicker">Astor Piazzolla</span>
-            <span class="video-poster-title">Night-Club 1960</span>
-            <span class="video-poster-sub">Duo Infatico · Violine &amp; Gitarre</span>
-            <span class="video-play" aria-hidden="true"></span>
-          </button>
-          <figcaption data-de="Astor Piazzolla – Night-Club 1960 · Duo Infatico (Violine &amp; Gitarre)" data-en="Astor Piazzolla – Night-Club 1960 · Duo Infatico (violin &amp; guitar)" data-ru="Астор Пьяццолла – Night-Club 1960 · Duo Infatico (скрипка и гитара)">
-            Astor Piazzolla – Night-Club 1960 · Duo Infatico (Violine &amp; Gitarre)
-          </figcaption>
-        </figure>
-
-        <figure class="video-item">
-          <div class="video-frame" role="img" aria-label="YouTube-Platzhalter 2">
-            <span class="video-play" aria-hidden="true"></span>
-            <span class="video-label" data-de="YouTube-Video 2" data-en="YouTube video 2" data-ru="YouTube-видео 2">YouTube-Video 2</span>
-          </div>
-          <!-- YOUTUBE-PLATZHALTER: hier später einbetten -->
-          <figcaption data-de="Platzhalter – Video-Link folgt." data-en="Placeholder — video link to follow" data-ru="Плейсхолдер — ссылка на видео появится позже.">
-            Platzhalter – Video-Link folgt.
-          </figcaption>
-        </figure>
+      <div class="video-player">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/3-nuhrhDwJM"
+            title="Astor Piazzolla – Night-Club 1960 | Duo Infatico"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-caption">
+          <span class="video-caption-title" data-de="Astor Piazzolla – Night-Club 1960" data-en="Astor Piazzolla – Night-Club 1960" data-ru="Астор Пьяццолла – Night-Club 1960">Astor Piazzolla – Night-Club 1960</span>
+          <span class="video-caption-sub" data-de="Duo Infatico · Violine &amp; Gitarre" data-en="Duo Infatico · violin &amp; guitar" data-ru="Duo Infatico · скрипка и гитара">Duo Infatico · Violine &amp; Gitarre</span>
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
   <!-- ============ 5. KONZERTE ============ -->
   <section class="section section-alt" id="konzerte">
