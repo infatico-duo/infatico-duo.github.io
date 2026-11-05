@@ -174,6 +174,29 @@
   var year = document.getElementById('year');
   if (year) { year.textContent = String(new Date().getFullYear()); }
 
+
+/* ------------------------------------------------- YouTube: загрузка по клику */
+
+(function () {
+  var posters = document.querySelectorAll('.video-poster[data-video-id]');
+  Array.prototype.forEach.call(posters, function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-video-id');
+      if (!id) { return; }
+      var frame = document.createElement('div');
+      frame.className = 'video-frame video-frame--short is-playing';
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.title = 'Astor Piazzolla \u2013 Night-Club 1960 | Duo Infatico';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      frame.appendChild(iframe);
+      btn.replaceWith(frame);
+    });
+  });
+})();
   /* ------------------------------------------------------------------ Start */
 
   applyLanguage(initialLanguage(), false);

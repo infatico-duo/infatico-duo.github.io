@@ -838,3 +838,29 @@ a.video-frame .video-label { text-decoration: none; }
 /* Встроенный YouTube-плеер: рамка 16:9, сам iframe заполняет её */
 .video-frame--embed { padding: 0; overflow: hidden; background: #000; display: block; }
 .video-frame--embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+/* Вертикальное видео: карточка 9:16 с названием произведения */
+.video-frame--short {
+  aspect-ratio: 9 / 16;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1.6rem 1.2rem;
+  text-align: center;
+  align-content: space-between;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #4a3c28 0%, #2a2218 45%, #191410 100%);
+}
+.video-poster { border: 1px solid var(--line); cursor: pointer; font: inherit; }
+.video-poster:hover { transform: translateY(-3px); }
+.video-poster:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.video-poster-kicker {
+  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent-soft); display: block;
+}
+.video-poster-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.55rem; line-height: 1.15; color: #f6f1e7; display: block; margin: .35rem 0 .2rem;
+}
+.video-poster-sub { font-size: .78rem; color: rgba(255, 253, 248, .62); display: block; }
+.video-poster .video-play { margin: 1.1rem auto .4rem; }
+.video-frame--short iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-frame--short.is-playing { padding: 0; overflow: hidden; background: #000; display: block; }
