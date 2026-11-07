@@ -150,7 +150,7 @@
         <li><a href="nataliya-salavei/" data-de="Nataliya" data-en="Nataliya" data-ru="Наталия">Nataliya</a></li>
         <li><a href="vadim-bektemirov/" data-de="Vadim" data-en="Vadim" data-ru="Вадим">Vadim</a></li>
         <li><a href="#videos"   data-de="Videos"    data-en="Videos"    data-ru="Видео">Videos</a></li>
-        <li><a href="unterricht/" data-de="Unterricht" data-en="Lessons" data-ru="Уроки">Unterricht</a></li>
+        <li><a href="#unterricht" data-de="Unterricht" data-en="Lessons" data-ru="Уроки">Unterricht</a></li>
         <li><a href="#konzerte" data-de="Konzerte"  data-en="Concerts"  data-ru="Концерты">Konzerte</a></li>
         <li><a href="#kontakt"  data-de="Kontakt"   data-en="Contact"   data-ru="Контакты">Kontakt</a></li>
       </ul>
@@ -315,27 +315,31 @@
     <div class="wrap">
       <header class="section-head">
         <p class="section-kicker" data-de="Unterricht" data-en="Lessons" data-ru="Уроки">Unterricht</p>
-        <h2 class="section-title" data-de="Privater Instrumentalunterricht in Bielefeld" data-en="Private instrumental lessons in Bielefeld" data-ru="Частные уроки музыки в Билефельде">Privater Instrumentalunterricht in Bielefeld</h2>
-        <p class="section-sub" data-de="Neben unserer Konzerttätigkeit bieten wir individuellen Unterricht für klassische Gitarre und Violine an – persönlich, fundiert und nach Verfügbarkeit." data-en="Alongside our concerts we offer individual lessons in classical guitar and violin – personal, thorough and subject to availability." data-ru="Помимо концертов мы предлагаем индивидуальные уроки классической гитары и скрипки — лично, основательно и по наличию времени.">
-          Neben unserer Konzerttätigkeit bieten wir individuellen Unterricht für klassische Gitarre und Violine an – persönlich, fundiert und nach Verfügbarkeit.
+        <h2 class="section-title" data-de="Unterrichtsanfragen" data-en="Lesson enquiries" data-ru="Запросы на занятия">Unterrichtsanfragen</h2>
+        <p class="section-sub"
+           data-de="Interessieren Sie sich für privaten Gitarren- oder Violinunterricht in Bielefeld? Sie können uns gerne unverbindlich kontaktieren. Ob und wann ein Unterrichtsplatz angeboten werden kann, wird individuell und nach Verfügbarkeit geklärt."
+           data-en="Interested in private classical guitar or violin lessons in Bielefeld? You are welcome to contact us without obligation. Whether lessons can be offered, and when, will be considered individually and is subject to availability."
+           data-ru="Если вас интересуют частные занятия классической гитарой или скрипкой в Билефельде, вы можете связаться с нами без каких-либо обязательств. Возможность проведения занятий и сроки обсуждаются индивидуально и зависят от наличия свободного места.">
+          Interessieren Sie sich für privaten Gitarren- oder Violinunterricht in Bielefeld? Sie können uns gerne unverbindlich kontaktieren. Ob und wann ein Unterrichtsplatz angeboten werden kann, wird individuell und nach Verfügbarkeit geklärt.
         </p>
       </header>
 
       <div class="lesson-grid">
         <article class="lesson-card">
-          <h3 class="lesson-title">Klassische Gitarre</h3>
-          <p class="lesson-meta">Unterricht bei Vadim Bektemirov</p>
-          <a class="lesson-link" href="gitarrenunterricht-bielefeld/">Zum Gitarrenunterricht</a>
+          <h3 class="lesson-title" data-de="Klassische Gitarre" data-en="Classical guitar" data-ru="Классическая гитара">Klassische Gitarre</h3>
+          <p class="lesson-name">Vadim Bektemirov</p>
+          <p class="lesson-text" data-de="Unverbindliche Anfrage zu privatem Gitarrenunterricht in Bielefeld." data-en="Non-binding enquiry about private guitar lessons in Bielefeld." data-ru="Необязательный запрос на частные занятия гитарой в Билефельде.">Unverbindliche Anfrage zu privatem Gitarrenunterricht in Bielefeld.</p>
+          <button type="button" class="btn btn-primary" data-lesson="gitarre"
+                  data-de="Gitarrenunterricht anfragen" data-en="Enquire about guitar lessons" data-ru="Запросить занятия гитарой">Gitarrenunterricht anfragen</button>
         </article>
-        <article class="lesson-card">
-          <h3 class="lesson-title">Violine</h3>
-          <p class="lesson-meta">Unterricht bei Nataliya Salavei</p>
-          <a class="lesson-link" href="geigenunterricht-bielefeld/">Zum Violinunterricht</a>
-        </article>
-      </div>
 
-      <div class="profile-actions">
-        <a class="btn btn-primary" href="unterricht/" data-de="Unterricht unverbindlich anfragen" data-en="Enquire about lessons" data-ru="Спросить об уроках">Unterricht unverbindlich anfragen</a>
+        <article class="lesson-card">
+          <h3 class="lesson-title" data-de="Violine" data-en="Violin" data-ru="Скрипка">Violine</h3>
+          <p class="lesson-name">Nataliya Salavei</p>
+          <p class="lesson-text" data-de="Unverbindliche Anfrage zu privatem Violinunterricht in Bielefeld." data-en="Non-binding enquiry about private violin lessons in Bielefeld." data-ru="Необязательный запрос на частные занятия скрипкой в Билефельде.">Unverbindliche Anfrage zu privatem Violinunterricht in Bielefeld.</p>
+          <button type="button" class="btn btn-primary" data-lesson="geige"
+                  data-de="Violinunterricht anfragen" data-en="Enquire about violin lessons" data-ru="Запросить занятия скрипкой">Violinunterricht anfragen</button>
+        </article>
       </div>
     </div>
   </section>
@@ -374,10 +378,12 @@
 
         <form class="contact-form" id="contact-form"
               action="https://infatico-form-handler.infatico-duo.workers.dev" method="POST">
+
           <div class="field">
-            <label for="cf-topic" data-de="Anliegen" data-en="Subject" data-ru="Тема">Anliegen</label>
-            <select id="cf-topic" name="anliegen">
-              <option value="konzert" data-de="Konzertanfrage" data-en="Concert enquiry" data-ru="Запрос концерта">Konzertanfrage</option>
+            <label for="cf-topic" data-de="Anliegen" data-en="Subject" data-ru="Тема обращения">Anliegen</label>
+            <select id="cf-topic" name="anliegen" required>
+              <option value="" selected data-de="Bitte auswählen" data-en="Please select" data-ru="Выберите">Bitte auswählen</option>
+              <option value="konzert" data-de="Konzertanfrage" data-en="Concert enquiry" data-ru="Концертное предложение">Konzertanfrage</option>
               <option value="gitarre" data-de="Gitarrenunterricht" data-en="Guitar lessons" data-ru="Уроки гитары">Gitarrenunterricht</option>
               <option value="geige" data-de="Violinunterricht" data-en="Violin lessons" data-ru="Уроки скрипки">Violinunterricht</option>
               <option value="sonstiges" data-de="Sonstiges" data-en="Other" data-ru="Другое">Sonstiges</option>

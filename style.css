@@ -934,7 +934,6 @@ a.video-frame .video-label { text-decoration: none; }
 
 /* Блок и страницы уроков */
 .lesson-teaser { border-top: 1px solid var(--line); }
-.lesson-head { padding-top: calc(88px + 2.5rem); }
 .lesson-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -956,7 +955,6 @@ a.video-frame .video-label { text-decoration: none; }
 .lesson-meta { color: var(--text-muted); font-size: .86rem; margin: 0; }
 .lesson-link { border-bottom: 1px solid var(--accent-soft); font-size: .9rem; }
 .lesson-link:hover { color: var(--accent); border-color: var(--accent); }
-.lesson-note { color: var(--text-muted); font-size: .8rem; margin: 1.5rem 0 0; max-width: 70ch; }
 .field select {
   width: 100%;
   padding: .7rem .85rem;
@@ -972,5 +970,20 @@ a.video-frame .video-label { text-decoration: none; }
 }
 
 /* Кнопки в карточках уроков — по нижнему краю */
-.lesson-card .btn { margin-top: auto; align-self: flex-start; }
+.lesson-card .btn { margin-top: auto; align-self: flex-start; width: auto; }
 .lesson-card .lesson-meta { margin-bottom: .35rem; }
+
+/* Карточки запросов на уроки */
+.lesson-name { margin: 0; font-weight: 600; font-size: .95rem; }
+.lesson-text { margin: 0 0 .35rem; color: var(--text-muted); font-size: .9rem; }
+.lesson-card .btn { margin-top: auto; align-self: flex-start; width: auto; }
+
+/* Кнопки в карточках уроков на узких экранах */
+@media (max-width: 480px) {
+  .lesson-card .btn {
+    width: 100%;
+    font-size: .72rem;
+    letter-spacing: .06em;
+    padding: .7rem .9rem;
+  }
+}

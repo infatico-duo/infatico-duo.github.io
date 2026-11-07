@@ -185,3 +185,45 @@
   applyLanguage(initialLanguage(), false);
   onScroll();
 })();
+
+/* ---------------------------------------------- Anfrage Unterricht -> Formular */
+
+(function () {
+  'use strict';
+
+  function focusForm(value) {
+    var select = document.getElementById('cf-topic');
+    if (select) { select.value = value; }
+    var section = document.getElementById('kontakt');
+    if (section) { section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    var field = select || document.getElementById('cf-name');
+    if (field) { window.setTimeout(function () { field.focus({ preventScroll: true }); }, 450); }
+  }
+
+  document.addEventListener('click', function (event) {
+    var trigger = event.target.closest ? event.target.closest('[data-lesson]') : null;
+    if (!trigger) { return; }
+    var value = trigger.getAttribute('data-lesson');
+    if (!value) { return; }
+    event.preventDefault();
+    focusForm(value);
+  });
+})();
+/* ------------------------- Thema der Anfrage in die Nachricht übernehmen */
+
+(function () {
+  'use strict';
+  var form = document.getElementById('contact-form');
+  var select = document.getElementById('cf-topic');
+  var message = document.getElementById('cf-message');
+  if (!form || !select || !message) { return; }
+
+  form.addEventListener('submit', function () {
+    if (!select.value) { return; }
+    var label = select.options[select.selectedIndex] ? select.options[select.selectedIndex].textContent.trim() : '';
+    if (!label) { return; }
+    var prefix = 'Anliegen: ' + label;
+    if (message.value.indexOf(prefix) === 0) { return; }
+    message.value = prefix + '\n\n' + message.value;
+  });
+})();
