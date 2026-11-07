@@ -963,10 +963,34 @@ a.video-frame .video-label { text-decoration: none; }
 
 
 /* Кнопка запроса на занятия на персональных страницах */
-.profile-lesson { margin: 1.75rem 0 0; }
 .profile-lesson .btn { display: inline-block; width: auto; }
 
 /* Ghost-кнопка на светлом фоне персональной страницы */
+.profile-lesson .btn-ghost {
+  color: var(--text);
+  border-color: var(--line);
+  background: transparent;
+}
+.profile-lesson .btn-ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Персональный блок «занятия»: текст + ghost-кнопка */
+.profile-lesson {
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.profile-lesson-text {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+  color: var(--text-muted);
+  font-size: .92rem;
+  line-height: 1.55;
+}
+.profile-lesson-action { margin: 0; }
+.profile-lesson .btn { display: inline-block; width: auto; }
 .profile-lesson .btn-ghost {
   color: var(--text);
   border-color: var(--line);
