@@ -866,3 +866,6 @@ a.video-frame .video-label { text-decoration: none; }
 }
 .video-caption-title { font-size: 1.02rem; color: var(--text); }
 .video-caption-sub { font-size: .84rem; color: var(--text-muted); }
+
+/* Второй ролик: отступ от предыдущего блока */
+.video-player--second { margin-top: 2.5rem; }
