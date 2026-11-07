@@ -869,3 +869,25 @@ a.video-frame .video-label { text-decoration: none; }
 
 /* Второй ролик: отступ от предыдущего блока */
 .video-player--second { margin-top: 2.5rem; }
+
+/* Два видео в ряд: сетка 2 колонки, на телефоне — в столбик */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 2rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+.video-grid .video-item { margin: 0; }
+.video-grid .video-player {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+.video-grid .video-caption {
+  max-width: none;
+  margin: .9rem 0 0;
+}
+@media (max-width: 900px) {
+  .video-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
