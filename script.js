@@ -195,29 +195,7 @@
   onScroll();
 })();
 
-/* ---------------------------------------------- Anfrage Unterricht -> Formular */
 
-(function () {
-  'use strict';
-
-  function focusForm(value) {
-    var select = document.getElementById('cf-topic');
-    if (select) { select.value = value; }
-    var section = document.getElementById('kontakt');
-    if (section) { section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    var field = select || document.getElementById('cf-name');
-    if (field) { window.setTimeout(function () { field.focus({ preventScroll: true }); }, 450); }
-  }
-
-  document.addEventListener('click', function (event) {
-    var trigger = event.target.closest ? event.target.closest('[data-lesson]') : null;
-    if (!trigger) { return; }
-    var value = trigger.getAttribute('data-lesson');
-    if (!value) { return; }
-    event.preventDefault();
-    focusForm(value);
-  });
-})();
 /* ------------------------- Thema der Anfrage in die Nachricht übernehmen */
 
 (function () {
@@ -235,4 +213,18 @@
     if (message.value.indexOf(prefix) === 0) { return; }
     message.value = prefix + '\n\n' + message.value;
   });
+})();
+
+/* ------------------------------- Vorauswahl der Anliegen-Art per URL */
+
+(function () {
+  'use strict';
+  var params = new URLSearchParams(window.location.search);
+  var topic = params.get('topic');
+  if (!topic) { return; }
+  var map = { gitarre: 'gitarre', violine: 'geige' };
+  var value = map[topic];
+  if (!value) { return; }
+  var select = document.getElementById('cf-topic');
+  if (select) { select.value = value; }
 })();
