@@ -72,6 +72,15 @@
       if (value !== null) { el.setAttribute('placeholder', value); }
     });
 
+
+    // Доступные подписи (aria-label) на нескольких языках
+    var ariaNodes = document.querySelectorAll('[data-aria-de]');
+    Array.prototype.forEach.call(ariaNodes, function (el) {
+      var value = el.getAttribute('data-aria-' + lang);
+      if (value === null) { value = el.getAttribute('data-aria-de'); }
+      if (value !== null) { el.setAttribute('aria-label', value); }
+    });
+
     // Dokument-Sprache, Titel, Bedienelemente
     html.setAttribute('lang', lang);
     // Unterseiten mit eigenem SEO-Titel behalten ihn (data-static-title im <body>)
