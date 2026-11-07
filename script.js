@@ -74,7 +74,12 @@
 
     // Dokument-Sprache, Titel, Bedienelemente
     html.setAttribute('lang', lang);
-    document.title = TITLES[lang] || TITLES[DEFAULT_LANG];
+    // Unterseiten mit eigenem SEO-Titel behalten ihn (data-static-title im <body>)
+    if (!document.body.hasAttribute('data-static-title')) {
+      document.title = TITLES[lang] || TITLES[DEFAULT_LANG];
+    } else if (document.body.hasAttribute('data-title-' + lang)) {
+      document.title = document.body.getAttribute('data-title-' + lang);
+    }
 
     if (navToggle) {
       var isOpen = navToggle.getAttribute('aria-expanded') === 'true';

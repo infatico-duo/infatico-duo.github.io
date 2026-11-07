@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Interne Werkzeuge der digitalen Visitenkarte nicht indexieren
+Disallow: /card/setup/
+Disallow: /card/contact/
+
+Sitemap: https://www.infatico-duo.de/sitemap.xml

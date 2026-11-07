@@ -891,3 +891,43 @@ a.video-frame .video-label { text-decoration: none; }
 @media (max-width: 900px) {
   .video-grid { grid-template-columns: 1fr; gap: 2rem; }
 }
+
+
+/* Временно скрытые незаполненные заглушки */
+.is-placeholder { display: none !important; }
+
+/* Ссылка «Auf YouTube ansehen» под плеером */
+.video-link {
+  display: inline-block;
+  margin-top: .55rem;
+  font-size: .82rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--accent-soft);
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.video-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Имена в биографиях — ссылки на персональные страницы */
+.bio-name a { color: inherit; border-bottom: 1px solid var(--accent-soft); }
+.bio-name a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Персональные страницы */
+.profile-head { padding-top: calc(88px + 2.5rem); }
+.profile-role { color: var(--text-muted); margin: .4rem 0 2rem; }
+.profile-grid { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+.profile-photo { width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+.profile-text p { margin: 0 0 1rem; }
+.profile-text { max-width: 70ch; }
+.profile-grid--single { grid-template-columns: minmax(0, 1fr); }
+.profile-actions { margin-top: 2rem; display: flex; gap: .75rem; flex-wrap: wrap; }
+.profile-videos { margin: 2rem 0 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
+.profile-videos a { border-bottom: 1px solid var(--accent-soft); }
+.profile-videos a:hover { color: var(--accent); border-color: var(--accent); }
+@media (max-width: 820px) {
+  .profile-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .profile-photo { max-width: 320px; }
+}
+
+/* Кнопка «Zum Duo Infatico» на светлом фоне */
+.profile-actions .btn-ghost { color: var(--text); border: 1px solid var(--line); background: transparent; }
+.profile-actions .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }

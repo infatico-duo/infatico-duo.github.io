@@ -13,6 +13,114 @@
 <link rel="stylesheet" href="style.css">
 <!-- Cloudflare Turnstile (Bot-Schutz für das Kontaktformular) -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<link rel="canonical" href="https://www.infatico-duo.de/">
+<meta property="og:url" content="https://www.infatico-duo.de/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.infatico-duo.de/#website",
+      "url": "https://www.infatico-duo.de/",
+      "name": "Duo Infatico",
+      "inLanguage": "de",
+      "publisher": {
+        "@id": "https://www.infatico-duo.de/#duo"
+      }
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.infatico-duo.de/#duo",
+      "name": "Duo Infatico",
+      "alternateName": "Duo Infatico Bielefeld",
+      "url": "https://www.infatico-duo.de/",
+      "description": "Kammermusik-Duo aus Bielefeld: Nataliya Salavei (Violine) und Vadim Bektemirov (Gitarre). Klassik bis Moderne.",
+      "genre": [
+        "Klassik",
+        "Zeitgenössische Musik"
+      ],
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Bielefeld, Deutschland"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Bielefeld und Umgebung"
+      },
+      "image": "https://www.infatico-duo.de/images/portrait-1.jpg",
+      "member": [
+        {
+          "@id": "https://www.infatico-duo.de/#nataliya"
+        },
+        {
+          "@id": "https://www.infatico-duo.de/#vadim"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.infatico-duo.de/#nataliya",
+      "name": "Nataliya Salavei",
+      "url": "https://www.infatico-duo.de/nataliya-salavei/",
+      "jobTitle": "Violinistin",
+      "description": "Geigerin, seit 2014 Mitglied der ersten Violinen der Bielefelder Philharmoniker; Mitgründerin des Duo Infatico.",
+      "image": "https://www.infatico-duo.de/images/portrait-1@2x.jpg",
+      "memberOf": {
+        "@id": "https://www.infatico-duo.de/#duo"
+      },
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Bielefelder Philharmoniker"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.infatico-duo.de/#vadim",
+      "name": "Vadim Bektemirov",
+      "url": "https://www.infatico-duo.de/vadim-bektemirov/",
+      "jobTitle": "Klassischer Gitarrist und Gitarrenpädagoge",
+      "description": "Klassischer Gitarrist und Gitarrenpädagoge in Bielefeld; unterrichtet seit 2016 an der Musik- und Kunstschule der Stadt Bielefeld; Mitgründer des Duo Infatico.",
+      "memberOf": {
+        "@id": "https://www.infatico-duo.de/#duo"
+      },
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Musik- und Kunstschule der Stadt Bielefeld"
+      },
+      "sameAs": [
+        "https://www.youtube.com/@vadimbektemirov8986"
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Astor Piazzolla – Night-Club 1960",
+      "description": "Duo Infatico (Violine und Gitarre) spielt Astor Piazzollas Night-Club 1960.",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/3-nuhrhDwJM",
+      "contentUrl": "https://youtu.be/3-nuhrhDwJM",
+      "thumbnailUrl": [
+        "https://i.ytimg.com/vi/3-nuhrhDwJM/hqdefault.jpg"
+      ],
+      "publisher": {
+        "@id": "https://www.infatico-duo.de/#duo"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Astor Piazzolla – Dernier Lamento (A Albertito)",
+      "description": "Duo Infatico (Violine und Gitarre) spielt Astor Piazzollas Dernier Lamento (A Albertito).",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/0qjQbXp1tys",
+      "contentUrl": "https://youtu.be/0qjQbXp1tys",
+      "thumbnailUrl": [
+        "https://i.ytimg.com/vi/0qjQbXp1tys/hqdefault.jpg"
+      ],
+      "publisher": {
+        "@id": "https://www.infatico-duo.de/#duo"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -37,6 +145,8 @@
     <nav class="primary-nav" id="primary-nav" aria-label="Hauptnavigation">
       <ul>
         <li><a href="#about"    data-de="Über uns"  data-en="About"     data-ru="О нас">Über uns</a></li>
+        <li><a href="nataliya-salavei/" data-de="Nataliya" data-en="Nataliya" data-ru="Наталия">Nataliya</a></li>
+        <li><a href="vadim-bektemirov/" data-de="Vadim" data-en="Vadim" data-ru="Вадим">Vadim</a></li>
         <li><a href="#musik"    data-de="Musik"     data-en="Music"     data-ru="Музыка">Musik</a></li>
         <li><a href="#videos"   data-de="Videos"    data-en="Videos"    data-ru="Видео">Videos</a></li>
         <li><a href="#konzerte" data-de="Konzerte"  data-en="Concerts"  data-ru="Концерты">Konzerte</a></li>
@@ -102,7 +212,7 @@
         </p>
       </div>
 
-      <figure class="duo-figure">
+      <figure class="duo-figure is-placeholder">
         <img src="images/duo.svg" alt="Duo Infatico – Platzhalterfoto" width="1200" height="800" loading="lazy">
         <figcaption data-de="Platzhalter – Foto des Duos wird noch ergänzt." data-en="Placeholder — photo of the duo will be added later." data-ru="Плейсхолдер — фото дуэта будет добавлено позже.">
           Platzhalter – Foto des Duos wird noch ergänzt.
@@ -115,7 +225,7 @@
             <source type="image/webp" srcset="images/portrait-1.webp 1x, images/portrait-1@2x.webp 2x">
             <img class="bio-photo" src="images/portrait-1.jpg" srcset="images/portrait-1.jpg 1x, images/portrait-1@2x.jpg 2x" alt="Nataliya Salavei mit Violine" width="1024" height="1536" loading="lazy">
           </picture>
-          <h3 class="bio-name">Nataliya Salavei</h3>
+          <h3 class="bio-name"><a href="nataliya-salavei/">Nataliya Salavei</a></h3>
           <p class="bio-role" data-de="Violine · Bielefelder Philharmoniker" data-en="Violin · Bielefeld Philharmonic" data-ru="Скрипка · Билефельдский филармонический оркестр">Violine · Bielefelder Philharmoniker</p>
           <div class="bio-text">
             <p data-de="Nataliya Salavei wurde 1986 in Minsk geboren und erhielt im Alter von sechs Jahren ihren ersten Violinunterricht am Musik-College der Belarussischen Staatlichen Musikhochschule. Mit neunzehn Jahren zog sie nach Deutschland und studierte an der Hochschule für Künste Bremen bei Prof. Katrin Scholz, wo sie ihr Diplom- und anschließend ihr Masterstudium abschloss." data-en="Nataliya Salavei was born in Minsk in 1986 and began studying the violin at the age of six at the Music College of the Belarusian State Academy of Music. At nineteen she moved to Germany and continued her studies at the University of the Arts Bremen with Prof. Katrin Scholz, completing both her diploma and master's degree." data-ru="Наталия Салавей родилась в 1986 году в Минске и начала заниматься скрипкой в возрасте шести лет в музыкальном колледже Белорусской государственной академии музыки. В девятнадцать лет она переехала в Германию и продолжила обучение в Высшей школе искусств Бремена у профессора Катрин Шольц, где окончила дипломный курс, а затем магистратуру.">Nataliya Salavei wurde 1986 in Minsk geboren und erhielt im Alter von sechs Jahren ihren ersten Violinunterricht am Musik-College der Belarussischen Staatlichen Musikhochschule. Mit neunzehn Jahren zog sie nach Deutschland und studierte an der Hochschule für Künste Bremen bei Prof. Katrin Scholz, wo sie ihr Diplom- und anschließend ihr Masterstudium abschloss.</p>
@@ -125,8 +235,8 @@
         </article>
 
         <article class="bio-card">
-          <img class="bio-photo" src="images/portrait-2.svg" alt="Vadim Bektemirov – Platzhalterporträt" width="1024" height="1536" loading="lazy">
-          <h3 class="bio-name">Vadim Bektemirov</h3>
+          <img class="bio-photo is-placeholder" src="images/portrait-2.svg" alt="Vadim Bektemirov – Platzhalterporträt" width="1024" height="1536" loading="lazy">
+          <h3 class="bio-name"><a href="vadim-bektemirov/">Vadim Bektemirov</a></h3>
           <p class="bio-role" data-de="Gitarre · Musik- und Kunstschule der Stadt Bielefeld" data-en="Guitar · Bielefeld Municipal Music and Art School" data-ru="Гитара · Музыкально-художественная школа города Билефельда">Gitarre · Musik- und Kunstschule der Stadt Bielefeld</p>
           <div class="bio-text">
             <p data-de="Vadim Bektemirov wurde 1989 in Sotschi geboren und begann im Alter von acht Jahren mit dem Gitarrenunterricht an der dortigen Städtischen Musikschule. Seit 2004 lebt er in Deutschland und setzte seine musikalische Ausbildung zunächst in Braunschweig fort." data-en="Vadim Bektemirov was born in Sochi in 1989 and began studying the guitar at the age of eight at the city's municipal music school. He has lived in Germany since 2004, initially continuing his musical education in Braunschweig." data-ru="Вадим Бектемиров родился в 1989 году в Сочи и начал заниматься гитарой в возрасте восьми лет в городской музыкальной школе. С 2004 года живёт в Германии, где продолжил музыкальное образование сначала в Брауншвейге.">Vadim Bektemirov wurde 1989 in Sotschi geboren und begann im Alter von acht Jahren mit dem Gitarrenunterricht an der dortigen Städtischen Musikschule. Seit 2004 lebt er in Deutschland und setzte seine musikalische Ausbildung zunächst in Braunschweig fort.</p>
@@ -151,7 +261,7 @@
         </p>
       </header>
 
-      <ol class="track-list">
+      <ol class="track-list is-placeholder">
         <li class="track">
           <div class="track-info">
             <span class="track-num">01</span>
@@ -220,6 +330,7 @@
           <figcaption class="video-caption">
             <span class="video-caption-title" data-de="Astor Piazzolla – Night-Club 1960" data-en="Astor Piazzolla – Night-Club 1960" data-ru="Астор Пьяццолла – Night-Club 1960">Astor Piazzolla – Night-Club 1960</span>
             <span class="video-caption-sub" data-de="Duo Infatico · Violine &amp; Gitarre" data-en="Duo Infatico · violin &amp; guitar" data-ru="Duo Infatico · скрипка и гитара">Duo Infatico · Violine &amp; Gitarre</span>
+          <a class="video-link" href="https://youtu.be/3-nuhrhDwJM" target="_blank" rel="noopener">Auf YouTube ansehen</a>
           </figcaption>
         </figure>
 
@@ -237,6 +348,7 @@
           <figcaption class="video-caption">
             <span class="video-caption-title" data-de="Astor Piazzolla – Dernier Lamento (A Albertito)" data-en="Astor Piazzolla – Dernier Lamento (A Albertito)" data-ru="Астор Пьяццолла – Dernier Lamento (A Albertito)">Astor Piazzolla – Dernier Lamento (A Albertito)</span>
             <span class="video-caption-sub" data-de="Duo Infatico · Violine &amp; Gitarre" data-en="Duo Infatico · violin &amp; guitar" data-ru="Duo Infatico · скрипка и гитара">Duo Infatico · Violine &amp; Gitarre</span>
+          <a class="video-link" href="https://youtu.be/0qjQbXp1tys" target="_blank" rel="noopener">Auf YouTube ansehen</a>
           </figcaption>
         </figure>
       </div>
@@ -256,7 +368,7 @@
         </p>
       </header>
 
-      <div class="concert-table" role="table" aria-label="Konzerttermine">
+      <div class="concert-table is-placeholder" role="table" aria-label="Konzerttermine">
         <div class="concert-row concert-head" role="row">
           <span role="columnheader" data-de="Datum" data-en="Date" data-ru="Дата">Datum</span>
           <span role="columnheader" data-de="Veranstaltungsort" data-en="Venue" data-ru="Место">Veranstaltungsort</span>
