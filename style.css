@@ -1000,3 +1000,28 @@ a.video-frame .video-label { text-decoration: none; }
   color: var(--accent);
   border-color: var(--accent);
 }
+
+
+/* Аудио: компактный плеер в разделе Musik */
+.audio-card {
+  margin: 1.75rem 0 0;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg, transparent);
+  display: grid;
+  gap: .9rem;
+}
+.audio-head { display: grid; gap: .2rem; }
+.audio-title { margin: 0; font-size: 1.05rem; font-weight: 600; }
+.audio-meta { margin: 0; color: var(--text-muted); font-size: .86rem; }
+.audio-player {
+  width: 100%;
+  max-width: 640px;
+  height: 40px;
+  accent-color: var(--accent);
+}
+@media (max-width: 480px) {
+  .audio-card { padding: 1rem; }
+  .audio-player { height: 36px; }
+}
