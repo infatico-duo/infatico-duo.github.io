@@ -1003,8 +1003,9 @@ a.video-frame .video-label { text-decoration: none; }
 
 
 /* Аудио: компактный плеер в разделе Musik */
+.music-list { display: grid; gap: 1rem; margin: 1.75rem 0 0; }
 .audio-card {
-  margin: 1.75rem 0 0;
+  margin: 0;
   padding: 1.15rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
