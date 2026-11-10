@@ -119,75 +119,6 @@
         "@id": "https://www.infatico-duo.de/#duo"
       },
       "uploadDate": "2026-11-07T18:03:44Z"
-    },
-    {
-      "@type": "MusicRecording",
-      "@id": "https://www.infatico-duo.de/#romance-criollo-live",
-      "name": "Romance Criollo – Live-Ausschnitt",
-      "description": "Live-Aufnahme, Ausschnitt aus einem Konzert.",
-      "byArtist": {
-        "@id": "https://www.infatico-duo.de/#vadim"
-      },
-      "recordingOf": {
-        "@type": "MusicComposition",
-        "name": "Romance Criollo",
-        "composer": {
-          "@type": "Person",
-          "name": "Jorge Morel"
-        }
-      },
-      "duration": "PT1M27.5S",
-      "audio": {
-        "@type": "AudioObject",
-        "contentUrl": "https://www.infatico-duo.de/audio/jorge-morel-romance-criollo.mp3",
-        "encodingFormat": "audio/mpeg"
-      }
-    },
-    {
-      "@type": "MusicRecording",
-      "@id": "https://www.infatico-duo.de/#schubert-arpeggione-1-live",
-      "name": "Arpeggione-Sonate, 1. Allegro moderato – Live",
-      "description": "Live-Aufnahme des ersten Satzes.",
-      "byArtist": {
-        "@id": "https://www.infatico-duo.de/#duo"
-      },
-      "recordingOf": {
-        "@type": "MusicComposition",
-        "name": "Sonate für Arpeggione und Klavier D 821",
-        "composer": {
-          "@type": "Person",
-          "name": "Franz Schubert"
-        }
-      },
-      "duration": "PT8M55S",
-      "audio": {
-        "@type": "AudioObject",
-        "contentUrl": "https://www.infatico-duo.de/audio/schubert-arpeggione-1-allegro-moderato.mp3",
-        "encodingFormat": "audio/mpeg"
-      }
-    },
-    {
-      "@type": "MusicRecording",
-      "@id": "https://www.infatico-duo.de/#schubert-arpeggione-2-live",
-      "name": "Arpeggione-Sonate, 2. Adagio – Live",
-      "description": "Live-Aufnahme des zweiten Satzes.",
-      "byArtist": {
-        "@id": "https://www.infatico-duo.de/#duo"
-      },
-      "recordingOf": {
-        "@type": "MusicComposition",
-        "name": "Sonate für Arpeggione und Klavier D 821",
-        "composer": {
-          "@type": "Person",
-          "name": "Franz Schubert"
-        }
-      },
-      "duration": "PT1M32S",
-      "audio": {
-        "@type": "AudioObject",
-        "contentUrl": "https://www.infatico-duo.de/audio/schubert-arpeggione-2-adagio.mp3",
-        "encodingFormat": "audio/mpeg"
-      }
     }
   ]
 }
@@ -218,7 +149,6 @@
         <li><a href="#about"    data-de="Über uns"  data-en="About"     data-ru="О нас">Über uns</a></li>
         <li><a href="nataliya-salavei/" data-de="Nataliya" data-en="Nataliya" data-ru="Наталия">Nataliya</a></li>
         <li><a href="vadim-bektemirov/" data-de="Vadim" data-en="Vadim" data-ru="Вадим">Vadim</a></li>
-        <li><a href="#musik"    data-de="Musik"    data-en="Music"    data-ru="Музыка">Musik</a></li>
         <li><a href="#videos"   data-de="Videos"    data-en="Videos"    data-ru="Видео">Videos</a></li>
                 <li><a href="#konzerte" data-de="Konzerte"  data-en="Concerts"  data-ru="Концерты">Konzerte</a></li>
         <li><a href="#kontakt"  data-de="Kontakt"   data-en="Contact"   data-ru="Контакты">Kontakt</a></li>
@@ -312,78 +242,11 @@
     </div>
   </section>
 
-  <!-- ============ 3. MUSIK ============ -->
-  <section class="section section-alt" id="musik">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="section-kicker" data-de="Live" data-en="Live" data-ru="Живые записи">Live</p>
-        <h2 class="section-title" data-de="Hörbeispiele" data-en="Listening excerpts" data-ru="Фрагменты записей">Hörbeispiele</h2>
-        <p class="section-sub"
-           data-de="Ausgewählte Ausschnitte aus Live-Aufnahmen der Musiker von Duo Infatico."
-           data-en="Selected excerpts from live recordings by the musicians of Duo Infatico."
-           data-ru="Избранные фрагменты концертных записей музыкантов Duo Infatico.">
-          Ausgewählte Ausschnitte aus Live-Aufnahmen der Musiker von Duo Infatico.
-        </p>
-      </header>
+  <!-- Audio-Bereich vorübergehend deaktiviert (Wunsch von Nataliya Salavei).
+       MP3-Dateien liegen weiterhin unter /audio/, Styles in style.css (.music-list, .audio-*).
+       Zum Wiederaktivieren: Block aus der Commit-Historie (a2aab79) zurückholen. -->
 
-      <div class="music-list">
-        <article class="audio-card">
-          <div class="audio-head">
-            <p class="audio-badge"
-               data-de="Live-Mitschnitt · Ausschnitt · 1:27"
-               data-en="Live recording · excerpt · 1:27"
-               data-ru="Концертная запись · фрагмент · 1:27">Live-Mitschnitt · Ausschnitt · 1:27</p>
-            <p class="audio-title">Romance Criollo</p>
-            <p class="audio-meta"
-               data-de="Jorge Morel · Gitarre: Vadim Bektemirov"
-               data-en="Jorge Morel · guitar: Vadim Bektemirov"
-               data-ru="Хорхе Морель · гитара: Вадим Бектемиров">Jorge Morel · Gitarre: Vadim Bektemirov</p>
-          </div>
-          <audio class="audio-player" controls preload="metadata"
-                 aria-label="Jorge Morel – Romance Criollo, Live-Ausschnitt, Vadim Bektemirov"
-                 src="audio/jorge-morel-romance-criollo.mp3">
-            <a href="audio/jorge-morel-romance-criollo.mp3">Romance Criollo (MP3)</a>
-          </audio>
-        </article>
-        <article class="audio-card">
-          <div class="audio-head">
-            <p class="audio-badge"
-               data-de="Live-Mitschnitt · 1. Satz · 8:55"
-               data-en="Live recording · movement 1 · 8:55"
-               data-ru="Концертная запись · 1-я часть · 8:55">Live-Mitschnitt · 1. Satz · 8:55</p>
-            <p class="audio-title">Arpeggione-Sonate · 1. Allegro moderato</p>
-            <p class="audio-meta"
-               data-de="Franz Schubert · Duo Infatico (Violine &amp; Gitarre)"
-               data-en="Franz Schubert · Duo Infatico (violin &amp; guitar)"
-               data-ru="Франц Шуберт · Duo Infatico (скрипка и гитара)">Franz Schubert · Duo Infatico (Violine &amp; Gitarre)</p>
-          </div>
-          <audio class="audio-player" controls preload="metadata"
-                 aria-label="Franz Schubert – Arpeggione-Sonate, 1. Allegro moderato, Duo Infatico"
-                 src="audio/schubert-arpeggione-1-allegro-moderato.mp3">
-            <a href="audio/schubert-arpeggione-1-allegro-moderato.mp3">Arpeggione-Sonate · 1. Allegro moderato (MP3)</a>
-          </audio>
-        </article>
-        <article class="audio-card">
-          <div class="audio-head">
-            <p class="audio-badge"
-               data-de="Live-Mitschnitt · 2. Satz · 1:32"
-               data-en="Live recording · movement 2 · 1:32"
-               data-ru="Концертная запись · 2-я часть · 1:32">Live-Mitschnitt · 2. Satz · 1:32</p>
-            <p class="audio-title">Arpeggione-Sonate · 2. Adagio</p>
-            <p class="audio-meta"
-               data-de="Franz Schubert · Duo Infatico (Violine &amp; Gitarre)"
-               data-en="Franz Schubert · Duo Infatico (violin &amp; guitar)"
-               data-ru="Франц Шуберт · Duo Infatico (скрипка и гитара)">Franz Schubert · Duo Infatico (Violine &amp; Gitarre)</p>
-          </div>
-          <audio class="audio-player" controls preload="metadata"
-                 aria-label="Franz Schubert – Arpeggione-Sonate, 2. Adagio, Duo Infatico"
-                 src="audio/schubert-arpeggione-2-adagio.mp3">
-            <a href="audio/schubert-arpeggione-2-adagio.mp3">Arpeggione-Sonate · 2. Adagio (MP3)</a>
-          </audio>
-        </article>
-      </div>
-    </div>
-  </section>
+
 
   <!-- ============ 4. VIDEOS ============ -->
   <section class="section" id="videos">
